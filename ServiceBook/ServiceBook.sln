@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServiceBook", "ServiceBook\ServiceBook.csproj", "{53092D33-CE01-4206-9014-AACC2B83EEB4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServiceBook.DAL", "ClassLibrary1\ServiceBook.DAL.csproj", "{57C7363E-020B-4840-813B-BE066C9AC124}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{53092D33-CE01-4206-9014-AACC2B83EEB4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{53092D33-CE01-4206-9014-AACC2B83EEB4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{53092D33-CE01-4206-9014-AACC2B83EEB4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{53092D33-CE01-4206-9014-AACC2B83EEB4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{57C7363E-020B-4840-813B-BE066C9AC124}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{57C7363E-020B-4840-813B-BE066C9AC124}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{57C7363E-020B-4840-813B-BE066C9AC124}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{57C7363E-020B-4840-813B-BE066C9AC124}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

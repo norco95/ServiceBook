@@ -1,0 +1,14 @@
+D:\Allamvizsga\ServiceBook\ClassLibrary1\bin\Debug\ServiceBook.DAL.dll.config
+D:\Allamvizsga\ServiceBook\ClassLibrary1\bin\Debug\ServiceBook.DAL.dll
+D:\Allamvizsga\ServiceBook\ClassLibrary1\bin\Debug\ServiceBook.DAL.pdb
+D:\Allamvizsga\ServiceBook\ClassLibrary1\bin\Debug\EntityFramework.dll
+D:\Allamvizsga\ServiceBook\ClassLibrary1\bin\Debug\EntityFramework.SqlServer.dll
+D:\Allamvizsga\ServiceBook\ClassLibrary1\bin\Debug\Microsoft.AspNet.Identity.Core.dll
+D:\Allamvizsga\ServiceBook\ClassLibrary1\bin\Debug\Microsoft.AspNet.Identity.EntityFramework.dll
+D:\Allamvizsga\ServiceBook\ClassLibrary1\bin\Debug\EntityFramework.xml
+D:\Allamvizsga\ServiceBook\ClassLibrary1\bin\Debug\EntityFramework.SqlServer.xml
+D:\Allamvizsga\ServiceBook\ClassLibrary1\bin\Debug\Microsoft.AspNet.Identity.Core.xml
+D:\Allamvizsga\ServiceBook\ClassLibrary1\bin\Debug\Microsoft.AspNet.Identity.EntityFramework.xml
+D:\Allamvizsga\ServiceBook\ClassLibrary1\obj\Debug\ServiceBook.DAL.csprojResolveAssemblyReference.cache
+D:\Allamvizsga\ServiceBook\ClassLibrary1\obj\Debug\ServiceBook.DAL.dll
+D:\Allamvizsga\ServiceBook\ClassLibrary1\obj\Debug\ServiceBook.DAL.pdb
