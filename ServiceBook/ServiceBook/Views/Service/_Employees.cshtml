@@ -1,0 +1,28 @@
+﻿<div class="container">
+
+
+
+    <div id="content">
+        <ul id="tab" class="nav nav-tabs" data-tabs="tabs">
+            <li class="active"><a href="#menu6" data-toggle="tab" data-bind="click: openEmployeesTab">Employees</a></li>
+            <li><a href="#menu7" data-toggle="tab" data-bind="text: employeAddAndEditTab, click: openAddEmployeTab"></a></li>
+          
+        </ul>
+        <div id="EmployeeTab" class="tab-content">
+            <div class="tab-pane active" id="menu6">
+                <br>
+                <br>
+               
+                <button data-bind="click: openAddEmployeTab">AddEmployee</button>
+              
+                @Html.Partial("_ListOfEmployees")
+            </div>
+            <div class="tab-pane" id="menu7">
+                <br><br>
+                @Html.Partial("_AddEmployee")
+            </div>
+         
+        </div>
+    </div>
+
+</div>

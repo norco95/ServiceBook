@@ -1,0 +1,86 @@
+﻿<div class="containre">
+    <div class="row">
+        <span class="error" data-bind="text: companyNameError"></span>
+    </div>
+
+    <div class="row">
+       
+         <div class="col-lg-5">
+          
+                <input type="text" data-bind="value: serviceName" placeholder="Your Company Name">
+                <button data-bind="click: addCompany">Add</button>
+        </div>
+
+    </div>
+    <!-- ko if: vehicleServiceCompanies().length > 0 -->
+
+    <div class="row">
+        <div class="col-lg-5">
+            <table class="table table-striped table-hover">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>ServiceName</th>
+                        <th>Edit</th>
+                        <th>Delet</th>
+                    </tr>
+                </thead>
+                <tbody data-bind="foreach: vehicleServiceCompanies">
+                    
+                    <tr>
+                    <td data-bind="text: ($index() + 1), click: $root.selectCompany.bind($data)" ></td>
+                       
+                        <td data-bind="text:serviceName, click: $root.selectCompany.bind($data)">
+                            
+                        </td>
+                           
+
+                     
+                        <td>
+                            <button type="button"  data-bind="click:$root.editCompany.bind($data)">
+                                Edit
+                            </button>
+                        </td>
+                        <td>
+                            <button type="button" class="close" aria-label="Close" data-bind="click:$root.deletCompany.bind($data)">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </td>
+                    </tr>
+                    
+                </tbody>
+            </table>
+        </div>
+</div>
+    <!-- /ko -->
+    </div>
+
+<div class="modal fade" id="EditCompany" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="vertical-alignment-helper">
+        <div class="modal-dialog vertical-align-center">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
+
+                    </button>
+                    <h4 class="modal-title" id="myModalLabel">EditCompany</h4>
+
+                </div>
+                <div class="modal-body">
+                    
+                <span class="error" data-bind="text: editCompanyError" ></span>
+                    <br>
+                    
+                    
+                <span><b>Company Name: </b></span><input type="text" data-bind="value: editServiceName"/>
+                       
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-info btn-lg" data-bind="click:  saveCompany">Save</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

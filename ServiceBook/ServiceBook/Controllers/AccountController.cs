@@ -9,6 +9,10 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using ServiceBook.Models;
+using ServiceBook.DAL;
+using ServiceBook.DAL.Models;
+using Microsoft.AspNet.Identity.EntityFramework;
+using System.Data.Entity;
 
 namespace ServiceBook.Controllers
 {
@@ -156,17 +160,32 @@ namespace ServiceBook.Controllers
                 if (result.Succeeded)
                 {
                     await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
+                    ServiceBookContext database = new ServiceBookContext();
+                    VehicleServiceCompanyOwner VehicleServiceCompanyOwner = new VehicleServiceCompanyOwner();
                     
+                    VehicleServiceCompanyOwner.Email = model.Email;
+                    VehicleServiceCompanyOwner.FirstName = model.FirstName;
+                    VehicleServiceCompanyOwner.LastName = model.LastName;
+                    VehicleServiceCompanyOwner.UID = user.Id;
+                    VehicleServiceCompanyOwner.PhoneNumber = model.PhoneNumber;
+                    
+                 
+                    VehicleServiceCompanyOwner.CCO = null;
+                    database.VehicleServiceCompanyOwner.Add(VehicleServiceCompanyOwner);
+
+                    database.SaveChanges();
                     // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771
                     // Send an email with this link
                     // string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
                     // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
                     // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
 
-                    return RedirectToAction("Index", "Home");
+                    return RedirectToAction("Index", "Service");
                 }
                 AddErrors(result);
             }
+
+            
 
             // If we got this far, something failed, redisplay form
             return View(model);
@@ -449,7 +468,7 @@ namespace ServiceBook.Controllers
             {
                 return Redirect(returnUrl);
             }
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Index", "Service");
         }
 
         internal class ChallengeResult : HttpUnauthorizedResult

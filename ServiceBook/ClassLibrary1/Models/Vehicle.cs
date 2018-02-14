@@ -12,9 +12,10 @@ namespace ServiceBook.DAL.Models
     public class Vehicle
     {
         [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int ID { get; set; }
         public string VIN { get; set; }
-        
+        public string Identifier { get; set; }
         public int OID { get; set; }
         [ForeignKey("OID")]
         public virtual VehicleOwner VehicleOwner{ get; set; }

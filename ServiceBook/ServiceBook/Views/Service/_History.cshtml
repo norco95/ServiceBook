@@ -1,0 +1,96 @@
+﻿<div class="row" >
+    <div class="col-lg-12 col-lg-offset-20">
+        <div class="col-lg-4">
+            <button class="btn-sm btn-outline-secondary" data-bind="click: firstHistory">
+                <span class="glyphicon glyphicon-fast-backward " aria-hidden="true"></span>
+            </button>
+            <button class="btn-sm btn-outline-secondary" data-bind="click: previousHistory">
+                <span class="glyphicon glyphicon glyphicon-backward" aria-hidden="true"></span>
+            </button>
+        </div>
+        <div class="col-lg-4">
+            <span data-bind="text: serviceDate">  </span>
+        </div>
+
+        <div class="col-lg-4">
+            <button class="btn-sm btn-outline-secondary" data-bind="click: nextHistory"><span class="glyphicon glyphicon-forward "></span></button>
+            <button class="btn-sm btn-outline-secondary" data-bind="click: lastHistory"><span class="glyphicon glyphicon-fast-forward "></span></button>
+
+
+        </div>
+    </div>
+</div>
+<br><br>
+<div class="row">
+    <div class="col-lg-1">
+    </div>
+    <div class="col-lg-10">
+        <h4 data-bind="text:vehicleHistoryServiceCompany"></h4>
+    </div>
+    <div class="col-lg-1">
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-12">
+        <span><b>Working Point:</b></span><span data-bind="text: vehicleHistoryWorkingPoint"></span>
+    </div>
+</div>
+<div class="row">
+
+    <div class="col-lg-6">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Intervention Name</th>
+                    <th>Price</th>
+                </tr>
+            </thead>
+            <tbody data-bind="foreach: vehicleHistoryInterventions">
+                <tr>
+                    <td data-bind="text: ($index() + 1)">
+                    </td>
+                    <td data-bind="text: name"></td>
+                    <td data-bind="text: price"></td>
+
+                </tr>
+                
+            </tbody>
+            
+        </table>
+    </div>
+    <div class="col-lg-6">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Employee Name</th>
+                </tr>
+            </thead>
+            <tbody data-bind="foreach: vehicleHistoryEmployees">
+                <tr>
+                    <td data-bind="text: ($index() + 1)"></td>
+                    <td><span data-bind="text: firstName"></span>&nbsp<span data-bind="text: lastName"></span></td>
+                </tr>
+                
+            </tbody>
+
+        </table>
+    </div>
+    
+</div>
+<div class="row">
+<div class="col-lg-12">
+<span><b>Next Visit Km:</b></span><span data-bind="text: vehicleHistoryNextVisitKm"></span>
+</div>  
+</div>
+<div class="row">
+    <div class="col-lg-12">
+        <span><b>Next Visit Date:</b></span><span data-bind="text: vehicleHistoryNextVisitDate"></span>
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-12">
+        <span><b>Repaire Km:</b></span><span data-bind="text: vehicleHistoryCurrentKm"></span>
+    </div>
+</div>

@@ -1,0 +1,33 @@
+﻿<form>
+    <div class="form-group">
+        <label >Employee First Name:</label>
+        <input type="text" class="form-control" id="EmployeeFirstName" data-bind="value:employeeFirstName">
+    </div>
+    <div class="form-group">
+        <label >Employee Last Name:</label>
+        <input type="text" class="form-control" id="EmployeeLastName" data-bind="value: employeeLastName">
+    </div>
+    <div class="form-group">
+        <label >Employee Phone:</label>
+        <input type="text" class="form-control" id="EmployeePhone" data-bind="value: employeePhoneNumber">
+    </div>
+    <div class="form-group">
+        <label>Employee Email:</label>
+        <input type="email" class="form-control" id="EmployeeEmail" data-bind="value:employeeEmail">
+    </div>
+  
+    <div class="form-group">
+        <!-- ko if: !employeeIsSelectedToEdit() -->
+        <button data-bind="click: addEmployee">Add Employee</button>
+        <!-- /ko -->
+
+        <!-- ko if: employeeIsSelectedToEdit -->
+
+        <button data-bind="click: saveEditEmployee">Edit Employee</button>
+        <!-- /ko -->
+       
+       
+    </div>
+    
+</form>
+

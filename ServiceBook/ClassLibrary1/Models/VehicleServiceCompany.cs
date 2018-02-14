@@ -12,18 +12,15 @@ namespace ServiceBook.DAL.Models
     public class VehicleServiceCompany
     {
         [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int ID { get; set; }
 
         public string ServiceName { get; set; }
 
+        public int Flag { get; set; }
         
-        public string UID { get; set; }
-        [ForeignKey("UID")]
-        public virtual IdentityUser IdentityUser { get; set; }
 
-        public int VSCOID { get; set; }
-        [ForeignKey("VSCOID")]
-        public virtual VehicleServiceCompanyOwner VehicleServiceCompanyOwner { get; set; }
+        public virtual ICollection<CCO> CCO { get; set; }
         public virtual ICollection<WorkingPoint> WorkingPoints { get; set; }
 
     }

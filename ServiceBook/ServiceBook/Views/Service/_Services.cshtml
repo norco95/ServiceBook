@@ -1,0 +1,131 @@
+﻿
+<div data-bind="visible: !workingPointIsSelected()">
+    Select one working point!
+    </div>
+<div data-bind="visible: workingPointIsSelected">
+    <button type="button" data-toggle="modal" data-target="#inputServiceModal" data-bind="click: openAddServiceModal">Add Service</button>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Identifier</th>
+                <th>Owner</th>
+                <th>OwnerPhoneNumber</th>
+                <th>Price</th>
+                <th>History</th>
+                <th>Repair</th>
+                <th>Edit</th>
+                <th>Status</th>
+              
+            </tr>
+        </thead>
+        <tbody data-bind="foreach : vehicles">
+
+
+            <tr>
+                <td data-bind="text: ($index() + 1)"></td>
+                <td data-bind="text: vehicle.identifier"></td>
+                <td><span data-bind="text: vehicle.vehicleOwner.lastName"></span>&nbsp<span data-bind="text: vehicle.vehicleOwner.firstName"></span></td>
+                <td data-bind="text: vehicle.vehicleOwner.phoneNumber"></td>
+                <td>
+                    <div class="row">
+
+                        <span data-bind="text:price"></span>  <span class="glyphicon glyphicon-euro"></span>    
+                     </div>
+                </td>
+                <td><button type="button" data-toggle="modal" data-target="#vehicleHistory" data-bind="click:$root.getVehicleHistory.bind($data)">History</button></td>
+                <td><button type="button" data-toggle="modal" data-target="#inputRepairsModal" data-bind="click:$root.addRepairs.bind($data)">Repairs</button></td>
+                <td><button type="button"  data-toggle="modal" data-target="#inputServiceModal" data-bind="click:$root.editService.bind($data)">Edit</button></td>
+                <td><button type="button" data-bind="click:$root.endedService.bind($data)">Ended</button></td>
+                <td>
+                    <button type="button" class="close" aria-label="Close" data-bind="click:$root.deletService.bind($data)">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+
+
+</div>
+
+
+    <!-- Modal -->
+    <div class="modal fade" id="inputServiceModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="vertical-alignment-helper">
+            <div class="modal-dialog vertical-align-center">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">
+                            <span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
+
+                        </button>
+                        <!-- ko if: !vehicleIsSelectedToEdit() -->
+                        <h4 class="modal-title" id="myModalLabel">Input Service</h4>
+                        <!-- /ko -->
+                        <!-- ko if: vehicleIsSelectedToEdit -->
+
+                        <h4 class="modal-title" id="myModalLabel">Edit Service</h4>
+                        <!-- /ko -->
+                        
+
+                    </div>
+                    <div class="modal-body">@Html.Partial("_InputService")</div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        <!-- ko if: !vehicleIsSelectedToEdit() -->
+                        <button type="button" class="btn btn-info btn-lg" data-bind="click: addService">Add</button>
+                        <!-- /ko -->
+                        <!-- ko if: vehicleIsSelectedToEdit -->
+
+                        <button type="button" class="btn btn-info btn-lg" data-bind="click: saveEditService">Edit</button>
+                        <!-- /ko -->
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="inputRepairsModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="vertical-alignment-helper">
+        <div class="modal-dialog vertical-align-center">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
+
+                    </button>
+                    <h4 class="modal-title" >Input Repaires</h4>
+
+                </div>
+                <div class="modal-body">@Html.Partial("_Repairs")</div>
+                <div class="modal-footer" >
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-info btn-lg" data-bind="click: saveRepairs">Save</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="vehicleHistory" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="vertical-alignment-helper">
+        <div class="modal-dialog vertical-align-center">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
+
+                    </button>
+                    <h4 class="modal-title">Vehicle History</h4>
+
+                </div>
+                <div class="modal-body">@Html.Partial("_History")</div>
+               
+            </div>
+        </div>
+    </div>
+</div>

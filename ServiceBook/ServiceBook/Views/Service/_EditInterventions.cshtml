@@ -1,0 +1,48 @@
+﻿<div class="row">
+    <div class="col-lg-5">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Intervention Name</th>
+                    <th>Price</th>
+                    <th>Edit</th>
+                    <th>Delet</th>
+                </tr>
+            </thead>
+            <tbody data-bind="foreach: interventions">
+               
+                <tr>
+                    <td data-bind="text: ($index() + 1)"></td>
+                    <td data-bind="text: name"></td>
+                    <td data-bind="text: price"></td>
+                    <td>
+                        <button type="button" data-bind="click: $root.editIntervention.bind($data)">
+                            Edit
+                        </button>
+                    </td>
+                    <td>
+                        <button type="button" class="close" aria-label="Close" data-bind="click: $root.deletIntervention.bind($data)">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </td>
+                </tr>
+
+            </tbody>
+            <tr>
+                <td></td>
+                <td><input type="text" data-bind="value: interventionName"></td>
+                <td><input type="text" data-bind="value: interventionPrice"></td>
+                <!-- ko if: !editInterventionIsSelected() -->
+                <td><button data-bind="click: addIntervention">+</button></td>
+                <!-- /ko -->
+                <!-- ko if: editInterventionIsSelected -->
+                <td><button data-bind="click: saveEditIntervention">Edit</button></td>
+                
+                <!-- /ko -->
+               
+                <td></td>
+            </tr>
+        </table>
+    </div>
+</div>

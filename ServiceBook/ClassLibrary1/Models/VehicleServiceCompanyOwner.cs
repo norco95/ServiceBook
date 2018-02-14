@@ -1,6 +1,8 @@
-﻿using System;
+﻿using Microsoft.AspNet.Identity.EntityFramework;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -10,6 +12,7 @@ namespace ServiceBook.DAL.Models
     public class VehicleServiceCompanyOwner
     {
         [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int ID { get; set; }
 
         public string Email { get; set; }
@@ -19,6 +22,8 @@ namespace ServiceBook.DAL.Models
         public string FirstName { get; set; }
 
         public string LastName { get; set; }
-        public virtual ICollection<VehicleServiceCompany> VehicleServiceCompanys { get; set; }
+        public string UID { get; set; }
+    
+        public virtual ICollection<CCO> CCO { get; set; }
     }
 }

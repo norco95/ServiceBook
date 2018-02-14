@@ -1,0 +1,126 @@
+﻿<div class="container">
+
+    <div class="row">
+        <div class="col-lg-6">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Name</th>
+                        <th></th>
+                        <th>Delet</th>
+                    </tr>
+                </thead>
+                <tbody data-bind="foreach: selectedInterventions">
+
+                    <tr>
+                        <td data-bind="text: ($index() + 1)"></td>
+                        <td data-bind="text: name"></td>
+                      <td>
+                          </td>
+                        <td>
+                            <button type="button" class="close" aria-label="Close" data-bind="click:  $root.deletFromSelectedInterventions.bind($data)">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </td>
+                    </tr>
+
+                </tbody>
+                <tr>
+                    <td></td>
+                    <td><select data-bind="options: interventions,
+                       optionsText: 'name',
+                       value : selectedIntervention;
+                       optionsCaption: 'Choose...'"></select>
+                       <button data-bind="click: addSelectedInterventionToRepairs">+</button></td>
+                    <td>
+                        
+                    </td>
+                    <td>
+                        </td>
+                </tr>
+            </table>
+        </div>
+
+
+
+      
+       <div class="col-lg-6">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>FullName</th>
+                        
+                            <th>Delet</th>
+                        </tr>
+                    </thead>
+                    <tbody data-bind="foreach: selectedEmployees">
+
+                        <tr>
+                            <td data-bind="text: ($index() + 1)"></td>
+                            <td><span data-bind="text: firstName"></span>&nbsp<span data-bind="text: lastName"></span></td>
+                            
+                            <td>
+                                <button type="button" class="close" aria-label="Close" data-bind="click: $root.deletEmployeeFromSelectedEmployees.bind($data) ">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </td>
+                        </tr>
+
+                    </tbody>
+                    <tr>
+                        <td></td>
+                        <td>
+                            <select data-bind="options: employees,
+                            optionsText: function(item) {
+                             return item.firstName + ' ' + item.lastName
+                            },
+                            value : selectedEmployee;
+                            optionsCaption: 'Choose...'"></select>
+                            <button data-bind="click: addEmployeeToSelectedEmployees">+</button>
+                        </td>
+                        
+                        <td></td>
+                    </tr>
+                </table>
+            </div>
+
+
+        </div>
+
+   
+
+
+    
+
+    
+    <div class="form-group row">
+        <div class="col-sm-3" >Curent km:</div>
+        <div class="col-sm-7">
+
+
+            <input type="text" class="form-control" data-bind="value: selectedVehicle.currentKm" >
+
+
+        </div>
+    </div>
+    <div class="form-group row">
+        <div class="col-sm-3" >Next visit km:</div>
+        <div class="col-sm-7">
+
+            <input type="text" class="form-control" data-bind="value: selectedVehicle.nextVisitKm">
+
+        </div>
+    </div>
+    <div class="form-group row">
+        <div class="col-sm-3" >Next visit Date</div>
+        <div class="col-sm-7">
+
+            <input type="date" class="form-control" data-bind="value: selectedVehicle.nextVisitDate()">
+        </div>
+    </div>
+    
+
+</div>
+

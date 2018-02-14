@@ -1,0 +1,143 @@
+﻿
+<div data-bind="visible: !vehicleServiceCompanyIsSelected()">
+    Select one company! 
+</div>
+<div class="row" data-bind="visible: vehicleServiceCompanyIsSelected">
+
+    <div class="col-lg-5">
+          <button  data-toggle="modal" data-target="#AddWorkingPoint" data-bind="click:openaddWorkingPointModal">AddWorkingPoint</button>
+    </div>
+    <!-- ko if: workingPoints().length > 0 -->
+    <div class="row">
+        <div class="col-lg-10">
+            <table class="table table-striped table-hover">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Country</th>
+                        <th>City</th>
+                        <th>Street</th>
+                        <th>Nr</th>
+                        <th>Employees</th>
+                        <th>Edit</th>
+                        <th>EditInterventions</th>
+                        <th>Delet</th>
+                    </tr>
+                </thead>
+                <tbody data-bind="foreach: workingPoints">
+
+                    <tr>
+                        <td data-bind="text: ($index() + 1), click:$root.selectWorkingPoint.bind($data)"></td>
+                        <td data-bind="text: country, click:$root.selectWorkingPoint.bind($data)"></td>
+                        <td data-bind="text: city, click:$root.selectWorkingPoint.bind($data)"></td>
+                        <td data-bind="text: street, click:$root.selectWorkingPoint.bind($data)"></td>
+                        <td data-bind="text: nr, click:$root.selectWorkingPoint.bind($data)"></td>
+                        <td>
+                            <button type="button" data-toggle="modal" data-target="#EmployeesModal" data-bind="click:$root.workingPointEmployees.bind($data)">
+                                Employees
+                            </button>
+                        </td>
+                        <td>
+                            
+                            <button type="button" data-toggle="modal" data-target="#AddWorkingPoint" data-bind="click:$root.editWorkingPoint .bind($data) ">
+                                Edit
+                            </button>
+                        </td>
+                        <td>
+                            <button type="button" data-toggle="modal" data-bind="click: $root.editInterventions.bind($data)" data-target="#EditInterventions">
+                                EditInterventions
+                            </button>
+                        </td>
+                        <td>
+                            <button type="button" class="close" aria-label="Close" data-bind="click: $root.deletWorkingPoint.bind($data)">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </td>
+                    </tr>
+
+                </tbody>
+            </table>
+        </div>
+    </div>    
+    <!-- /ko -->
+</div>
+
+
+ <!-- Modal -->
+<div class="modal fade" id="AddWorkingPoint" tabindex="-1" role="dialog" aria-labelledby="AddWorkingPoint" aria-hidden="true">
+    <div class="vertical-alignment-helper">
+        <div class="modal-dialog vertical-align-center">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" >
+                        <span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
+
+                    </button>
+                    <!-- ko if: !workingPointIsASelectedToEdit() -->
+                    <h4 class="modal-title">Add WorkingPoint</h4>
+                    <!-- /ko -->
+                    <!-- ko if: workingPointIsASelectedToEdit -->
+
+                    <h4 class="modal-title">Edit WorkingPoint</h4>
+                    <!-- /ko -->
+                    
+
+                </div>
+                <div class="modal-body">@Html.Partial("_AddWorkingPoint")</div>
+                <div class="modal-footer" >
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <!-- ko if: !workingPointIsASelectedToEdit() -->
+                    <button type="button" class="btn btn-info btn-lg" data-bind="click: addWorkingPoint">Save</button>
+                    <!-- /ko -->
+                    <!-- ko if: workingPointIsASelectedToEdit -->
+                    
+                    <button type="button" class="btn btn-info btn-lg" data-bind="click: saveEditWorkingPoint">Edit</button>
+                    <!-- /ko -->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="EditInterventions" tabindex="-1" role="dialog" aria-labelledby="EditInterventions" aria-hidden="true">
+    <div class="vertical-alignment-helper">
+        <div class="modal-dialog vertical-align-center">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
+
+                    </button>
+                    <h4 class="modal-title">Edit Interventions</h4>
+
+                </div>
+                <div class="modal-body">@Html.Partial("_EditInterventions")</div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="EmployeesModal" tabindex="-1" role="dialog" aria-labelledby="EmployeesModal" aria-hidden="true">
+    <div class="vertical-alignment-helper">
+        <div class="modal-dialog vertical-align-center">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
+
+                    </button>
+                    <h4 class="modal-title">Employees</h4>
+
+                </div>
+                <div class="modal-body">@Html.Partial("_Employees")</div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+  

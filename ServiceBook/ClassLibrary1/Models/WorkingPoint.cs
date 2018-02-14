@@ -11,20 +11,22 @@ namespace ServiceBook.DAL.Models
     public class WorkingPoint
     {
         [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int ID { get; set; }
         public string Country { get; set; }
 
         public string City { get; set; }
-        
+        public int Flag { get; set; }
         public string Street { get; set; }
         
         public string Nr { get; set; }  
-        public int VSOCID { get; set; }
-        [ForeignKey("VSOCID")]
-        public virtual VehicleServiceCompanyOwner VehicleServiceCompanyOwner { get; set; }
-        public virtual ICollection<Employee> Employess { get; set; }
+        public int VSCID { get; set; }
+        [ForeignKey("VSCID")]
+        public virtual VehicleServiceCompany VehicleServiceCompany { get; set; }
+        public virtual ICollection<Employee> Employees { get; set; }
 
-        public virtual ICollection<ServiceIntervention> ServiceImterventions { get; set; }
+        public virtual ICollection<ServiceIntervention> ServiceInterventions { get; set; }
+        public virtual ICollection<SW> SW { get; set; }
 
     }
 }

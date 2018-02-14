@@ -1,0 +1,11 @@
+﻿body {
+}
+.table-hover tbody tr:hover td, .table-hover tbody tr:hover th {
+  background-color: #0094ff;
+  color: #ffffff;
+
+}
+
+.error{
+    color:red;
+}

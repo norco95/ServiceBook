@@ -11,17 +11,20 @@ namespace ServiceBook.DAL.Models
    public class ServiceIntervention
     {
         [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int ID { get; set; }
         public string Name { get; set; }
 
         public double Price { get; set; }
+        
+        public int Flag { get; set; }
 
         public int CID { get; set; }
 
         [ForeignKey("CID")]
         public virtual Currency Currency { get; set; }
 
-        public int WP { get; set; }
+        public int? WP { get; set; }
         [ForeignKey("WP")]
         public virtual WorkingPoint WorkingPoint { get; set; }
 

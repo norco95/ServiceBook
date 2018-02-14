@@ -1,0 +1,80 @@
+﻿@model ServiceBook.Models.ServiceViewModel
+@{
+    ViewBag.Title = "Index";
+}
+
+<br><br>
+<div class="container">
+    <div id="content">
+    <ul id="tabs" class="nav nav-tabs" data-tabs="tabs">
+        <li class="active"><a href="#menu" data-toggle="tab">Companies</a></li>
+        <li><a href="#menu1" data-toggle="tab">Working Points</a></li>
+        <li><a href="#menu2" data-toggle="tab">Vehicles</a></li>
+   
+    </ul>
+    <div id="my-tab-content" class="tab-content">
+        <div class="tab-pane active" id="menu">
+            <br>
+            <br>
+            @Html.Partial("_MyCompanies")
+        </div>
+        <div class="tab-pane" id="menu1">
+            <br><br>
+            @Html.Partial("_MyWorkingPoints")
+        </div>
+        <div class="tab-pane" id="menu2">
+            <br><br>
+            @Html.Partial("_Services")
+        </div>
+        
+    </div>
+</div>
+
+  </div>
+
+
+
+
+
+
+
+
+
+
+   
+
+ 
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" ></script>
+<script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.4.4/underscore-min.js"></script>
+<script type="text/javascript" src="~/Scripts/Service/MainModel.js"></script>
+<script type="text/javascript" src="~/Scripts/Service/Models/CCO.js"></script>
+<script type="text/javascript" src="~/Scripts/Service/Models/Currency.js"></script>
+<script type="text/javascript" src="~/Scripts/Service/Models/Employee.js"></script>
+<script type="text/javascript" src="~/Scripts/Service/Models/SE.js"></script> 
+<script type="text/javascript" src="~/Scripts/Service/Models/Service.js"></script>
+<script type="text/javascript" src="~/Scripts/Service/Models/ServiceIntervention.js"></script>
+<script type="text/javascript" src="~/Scripts/Service/Models/SSI.js"></script>
+<script type="text/javascript" src="~/Scripts/Service/Models/Vehicle.js"></script>
+<script type="text/javascript" src="~/Scripts/Service/Models/VehicleOwner.js"></script>
+<script type="text/javascript" src="~/Scripts/Service/Models/VehicleServiceCompany.js"></script>
+<script type="text/javascript" src="~/Scripts/Service/Models/VehicleServiceCompanyOwner.js"></script>
+<script type="text/javascript" src="~/Scripts/Service/Models/WorkingPoint.js"></script>
+<script type="text/javascript" src="~/Scripts/Service/Models/SW.js"></script>
+<script src='http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.5/jquery-ui.min.js'></script>
+<div class="modal fade" id="loading" tabindex="-1" role="dialog" aria-labelledby="loading" aria-hidden="true">
+
+    <div class="vertical-alignment-helper">
+        <div class="modal-dialog vertical-align-center">
+            <div class="modal-content">
+                <img id="loader" src="~/Content/images/loading.gif" />
+
+            </div>
+        </div>
+    </div>
+</div>
+
+    <script type="text/javascript" src="~/Scripts/General.js"></script>
+
+    <script type="text/javascript">
+        InitializeMainModel(@Html.Raw(Json.Encode(Model)));
+    </script>

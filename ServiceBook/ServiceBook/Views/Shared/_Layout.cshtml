@@ -3,42 +3,94 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@ViewBag.Title - My ASP.NET Application</title>
+
+    <title>SERVICE BOOK</title>
     @Styles.Render("~/Content/css")
-    @Scripts.Render("~/bundles/modernizr")
+
+
+
+    <script type="text/javascript" src="~/Scripts/knockout-3.4.2.js"></script>
+    <link rel="stylesheet" href="~/Content/css/font-awesome.min.css" />
+    <link rel="stylesheet" href="~/Content/animat/animate.min.css" />
+    <link rel="stylesheet" href="~/Content/Site.css" />
+    <link rel="stylesheet" href="~/Content/Service.css">
+    <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css" rel="stylesheet">
+
+
+
+
+
+
+
 
 </head>
 <body>
-    <div class="navbar navbar-inverse navbar-fixed-top">
+
+    <header id="home" class="header">
+        <div class="main_menu_bg navbar-fixed-top">
+            <div class="container">
+                <div class="row">
+                    <div class="nave_menu">
+                        <nav class="navbar navbar-default">
+                            <div class="container-fluid">
+                                <!-- Brand and toggle get grouped for better mobile display -->
+                                <div class="navbar-header">
+
+                                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                                        <span class="sr-only">Toggle navigation</span>
+                                        <span class="icon-bar"></span>
+                                        <span class="icon-bar"></span>
+                                        <span class="icon-bar"></span>
+                                    </button>
+
+                                </div>
+
+                                <a href="#"><img src="~/Content/images/logo.png" alt="" /></a>
+                                @Html.Partial("_LoginPartial")
+
+
+                            </div><!-- /.container-fluid -->
+                        </nav>
+                    </div>
+                </div><!--End of row -->
+
+            </div><!--End of container -->
+
+        </div>
+    </header> <!--End of header -->
+
+
+
+    <br><br>
+
+    @RenderBody()
+
+    <hr />
+
+    <footer id="footer" class="footer">
         <div class="container">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                @Html.ActionLink("Application name", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
-            </div>
-            <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("Home", "Index", "Home")</li>
-                    <li>@Html.ActionLink("About", "About", "Home")</li>
-                    <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
-                </ul>
-                @Html.Partial("_LoginPartial")
+            <div class="row">
+                <div class="main_footer text-center wow zoomIn" data-wow-duration="1s">
+                    <p>Made by Orban Norbert 2017. All Rights Reserved</p>
+                </div>
             </div>
         </div>
-    </div>
-    <div class="container body-content">
-        @RenderBody()
-        <hr />
-        <footer>
-            <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
-        </footer>
-    </div>
+    </footer>
 
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
     @RenderSection("scripts", required: false)
+
+    @Scripts.Render("~/bundles/modernizr")
+    <script type="text/javascript" src="~/Scripts/script.js"></script>
+
+
+
+
+    <script type="text/javascript" src="~/Scripts/owl-carousel/owl.carousel.min.js"></script>
+
+    <script type="text/javascript" src="~/Scripts/wow/wow.min.js"></script>
+
+
 </body>
 </html>

@@ -31,11 +31,11 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
-      <HintPath>..\packages\EntityFramework.6.1.0\lib\net45\EntityFramework.dll</HintPath>
+      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
-      <HintPath>..\packages\EntityFramework.6.1.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.AspNet.Identity.Core, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
@@ -58,12 +58,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BaseRepository.cs" />
+    <Compile Include="EmployeeRepository.cs" />
     <Compile Include="Filter.cs" />
-    <Compile Include="Interfaces\ICarOwnerRepository.cs" />
     <Compile Include="Interfaces\IRepository.cs" />
     <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Models\CCO.cs" />
     <Compile Include="Models\SE.cs" />
     <Compile Include="Models\SSI.cs" />
+    <Compile Include="Models\SW.cs" />
     <Compile Include="Models\VehicleOwner.cs" />
     <Compile Include="Models\Currency.cs" />
     <Compile Include="Models\Employee.cs" />
@@ -76,6 +78,11 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ServiceBookContext.cs" />
     <Compile Include="ServiceBookInitializer.cs" />
+    <Compile Include="ServiceInterventionRepository.cs" />
+    <Compile Include="ServiceRepository.cs" />
+    <Compile Include="VehicleServiceCompanyOwnerRepository.cs" />
+    <Compile Include="VehicleServiceCompanyRepository.cs" />
+    <Compile Include="WorkingPointRepository.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.xml" />
