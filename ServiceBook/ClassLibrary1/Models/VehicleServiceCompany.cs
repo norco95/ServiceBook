@@ -6,6 +6,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web.Script.Serialization;
 
 namespace ServiceBook.DAL.Models
 {
@@ -18,9 +19,10 @@ namespace ServiceBook.DAL.Models
         public string ServiceName { get; set; }
 
         public int Flag { get; set; }
-        
 
+       
         public virtual ICollection<CCO> CCO { get; set; }
+        
         public virtual ICollection<WorkingPoint> WorkingPoints { get; set; }
 
     }

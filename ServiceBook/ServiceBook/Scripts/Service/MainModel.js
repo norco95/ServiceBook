@@ -1000,7 +1000,7 @@
                 SSI: _self.selectedVehicle.ssi(),
                 CurrentKm: _self.selectedVehicle.currentKm,
                 NextVisitKm: _self.selectedVehicle.nextVisitKm,
-                NextVisitDate: _self.selectedVehicle.nextVisitDate,
+                NextVisitDate: _self.selectedVehicle.nextVisitDate(),
                 SE: _self.selectedVehicle.se
                 
             },
@@ -1067,6 +1067,7 @@
             url: "/Service/GetVehicleHistory/",
             data: {
                 
+                    ID: data.vehicle.id,
                     VIN:data.vehicle.vin
                 
               
@@ -1139,6 +1140,8 @@
             _self.setVehicleHistory();
         }
     }
+
+
 }
 function InitializeMainModel(data) {
     MainModel.instance = new MainModel();

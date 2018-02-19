@@ -13,6 +13,8 @@ using System.Configuration;
 using Nexmo.Api;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using System.Web.Script.Serialization;
+using System.Threading.Tasks;
 
 namespace ServiceBook.Controllers
 {
@@ -25,7 +27,10 @@ namespace ServiceBook.Controllers
         private WorkingPointRepository WorkingPointRepository = new WorkingPointRepository();
         private EmployeeRepository EmployeeRepository = new EmployeeRepository();
         private ServiceRepository ServiceRepository = new ServiceRepository();
+        private VehicleRepository VehicleRepository = new VehicleRepository();
         // GET: Service
+       
+       
         public ActionResult Index()
         {
 
@@ -40,8 +45,13 @@ namespace ServiceBook.Controllers
                 {
                     VehicleServiceCompanies = VehicleServiceCompanyOwnerRepository.GetVehicleCompanies(uid)
                 };
-      
-                
+                //var json=JsonConvert.SerializeObject(serviceviewmodel, Formatting.Indented,
+                //            new JsonSerializerSettings
+                //            {
+                //                ReferenceLoopHandling = ReferenceLoopHandling.Ignore
+                //            });
+                //ServiceViewModel sw = new ServiceViewModel();
+                //sw=JsonConvert.DeserializeObject<ServiceViewModel>(json);
                 return View(serviceviewmodel);
             }
             return View();
@@ -107,8 +117,9 @@ namespace ServiceBook.Controllers
             bool success = false;
             var message = "";
             Session["SelectedWorkingPointId"] = data.ID;
+            
             success = true;
-            return Json(new { success = success, messages = message}, JsonRequestBehavior.DenyGet);
+            return Json(new { success = success, messages = message }, JsonRequestBehavior.DenyGet);
         }
 
         [HttpPost]

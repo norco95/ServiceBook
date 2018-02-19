@@ -42,7 +42,7 @@ namespace ServiceBook.DAL
             
             double price = 0;
             service.NextVisitKm = Service.NextVisitKm;
-            service.NextVisitDate = Service.NextVisitDate;
+            service.NextVisitDate = DateTime.Now; //Service.NextVisitDate;
             service.CurrentKm = Service.CurrentKm;
             service.ServiceDate = DateTime.Now;
             if (Service.SSI != null)
@@ -144,16 +144,24 @@ namespace ServiceBook.DAL
         public SW AddService(int WorkingPointId, Vehicle Vehicle)
         {
             var WorkingPoint = ServiceBookContext.WorkingPoint.FirstOrDefault(x => x.ID == WorkingPointId);
+            var vehicle = ServiceBookContext.Vehicle.FirstOrDefault(x => x.VIN == Vehicle.VIN);
             SW sw = new SW();
             sw.WorkingPoint = WorkingPoint;
             sw.Service = new Service();
-            sw.Service.Vehicle = Vehicle;
+            if (vehicle != null)
+            {
+                sw.Service.Vehicle = vehicle;
+            }
+            else
+            {
+                sw.Service.Vehicle = Vehicle;
+            }
             sw.Service.Flag = 0;
             sw.Service.NextVisitKm = 0;
             sw.Service.CurrentKm = 0;
             sw.Service.NextVisitDate = DateTime.Now;
             sw.Service.ServiceDate = DateTime.Now;
-
+            
             ServiceBookContext.SW.Add(sw);
             ServiceBookContext.SaveChanges();
             if (sw.Service != null)
@@ -211,11 +219,12 @@ namespace ServiceBook.DAL
 
         public List<Service> GetVehicleHistory(Vehicle Vehicle)
         {
- 
-            var VehicleHisotry =ServiceBookContext.Service.Where(x=>x.Vehicle.VIN==Vehicle.VIN && x.Flag==1).ToList();
-            List<Service> VehicleHisotries = new List<Service>();
 
-            foreach (var history in VehicleHisotry.ToList())
+            var VehicleHisotry = ServiceBookContext.Vehicle.FirstOrDefault(x => x.ID == Vehicle.ID);
+            var services = VehicleHisotry.Services.Where(x => x.Flag == 1);
+
+            List<Service> VehicleHisotries = new List<Service>();
+            foreach (var history in services.ToList())
             {
                
                 if(history.Vehicle!=null)
@@ -306,10 +315,7 @@ namespace ServiceBook.DAL
                     }
 
                 }
-                if (history.Flag != 1)
-                {
-                    VehicleHisotry.Remove(history);
-                }
+                
                 VehicleHisotries.Add(history);
             }
 
