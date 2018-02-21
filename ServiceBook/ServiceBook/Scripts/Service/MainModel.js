@@ -944,6 +944,7 @@
 
     //Repairs
     this.addRepairs = function (data) {
+        document.getElementById("date").value =data.nextVisitDate();
         _self.interventions(_self.selectedWorkingPoint.serviceInterventions());
         _self.employees(_self.selectedWorkingPoint.employees());
         // _self.selectedVehicle = data;

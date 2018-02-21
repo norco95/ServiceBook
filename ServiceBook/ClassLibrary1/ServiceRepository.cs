@@ -42,7 +42,7 @@ namespace ServiceBook.DAL
             
             double price = 0;
             service.NextVisitKm = Service.NextVisitKm;
-            service.NextVisitDate = DateTime.Now; //Service.NextVisitDate;
+            service.NextVisitDate = Service.NextVisitDate;
             service.CurrentKm = Service.CurrentKm;
             service.ServiceDate = DateTime.Now;
             if (Service.SSI != null)
@@ -145,16 +145,21 @@ namespace ServiceBook.DAL
         {
             var WorkingPoint = ServiceBookContext.WorkingPoint.FirstOrDefault(x => x.ID == WorkingPointId);
             var vehicle = ServiceBookContext.Vehicle.FirstOrDefault(x => x.VIN == Vehicle.VIN);
+            var owner = ServiceBookContext.VehicleOwner.FirstOrDefault(x => x.Email == Vehicle.VehicleOwner.Email && x.PhoneNumber == Vehicle.VehicleOwner.PhoneNumber);
             SW sw = new SW();
             sw.WorkingPoint = WorkingPoint;
             sw.Service = new Service();
             if (vehicle != null)
             {
-                sw.Service.Vehicle = vehicle;
+                sw.Service.Vehicle = vehicle;   
             }
             else
             {
                 sw.Service.Vehicle = Vehicle;
+            }
+            if (owner != null)
+            {
+                sw.Service.Vehicle.VehicleOwner = owner;
             }
             sw.Service.Flag = 0;
             sw.Service.NextVisitKm = 0;
