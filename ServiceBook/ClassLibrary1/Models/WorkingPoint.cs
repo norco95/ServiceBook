@@ -26,7 +26,7 @@ namespace ServiceBook.DAL.Models
         public virtual ICollection<Employee> Employees { get; set; }
 
         public virtual ICollection<ServiceIntervention> ServiceInterventions { get; set; }
-        public virtual ICollection<SW> SW { get; set; }
+        public virtual ICollection<Service> Services { get; set; }
 
     }
 }

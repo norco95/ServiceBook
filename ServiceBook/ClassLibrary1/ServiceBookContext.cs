@@ -24,8 +24,9 @@ namespace ServiceBook.DAL
         public DbSet<CCO> CCO { get; set; }
         public DbSet<Vehicle> Vehicle { get; set; }
         public DbSet<WorkingPoint> WorkingPoint { get; set; }
+        public DbSet<Review> Review { get; set; }
 
-        public DbSet<SW> SW { get; set; }
+       
 
      
 
@@ -46,6 +47,15 @@ namespace ServiceBook.DAL
             .WithRequired()
             .HasForeignKey(c => c.COID);
 
+            modelBuilder.Entity<Service>()
+            .HasOptional(x => x.Review).WithMany()
+            .HasForeignKey(x => x.RID);
+
+            modelBuilder.Entity<Review>()
+                .HasRequired(x => x.Service).WithMany()
+                .HasForeignKey(x => x.SID);
+
+
 
 
             modelBuilder.Entity<SE>()
@@ -64,19 +74,7 @@ namespace ServiceBook.DAL
 
 
 
-            modelBuilder.Entity<SW>()
-            .HasKey(t => new { t.SID, t.WID });
-
-            modelBuilder.Entity<Service>()
-            .HasMany(c => c.SW)
-            .WithRequired()
-            .HasForeignKey(c => c.SID);
-
-            modelBuilder.Entity<WorkingPoint>()
-            .HasMany(c => c.SW)
-            .WithRequired()
-            .HasForeignKey(c => c.WID);
-
+            
 
             modelBuilder.Entity<SSI>()
             .HasKey(t => new { t.SID, t.SIID });
@@ -102,6 +100,13 @@ namespace ServiceBook.DAL
            .HasRequired<WorkingPoint>(s => s.WorkingPoint)
            .WithMany(g => g.Employees)
            .HasForeignKey<int>(s => s.WPID);
+           
+
+            modelBuilder.Entity<Service>()
+         .HasRequired<WorkingPoint>(s => s.WorkingPoint)
+         .WithMany(g => g.Services)
+         .HasForeignKey<int>(s => s.WPID)
+         .WillCascadeOnDelete(false);
 
             modelBuilder.Entity<Vehicle>()
               .HasRequired<VehicleOwner>(s => s.VehicleOwner)

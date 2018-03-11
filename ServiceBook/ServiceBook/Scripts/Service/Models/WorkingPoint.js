@@ -9,8 +9,8 @@
     this.employees=ko.observableArray(null);
     this.serviceInterventions = ko.observableArray(null);
     this.flag = null;
-    this.sw = null;
     this.vscid = null;
+    this.services = ko.observableArray(null);
     this.serviceCompany = null;
     if (data != null)
     {
@@ -32,10 +32,11 @@
         });
         this.serviceInterventions(serviceInterventions);
 
-        this.sw = _.map(data.SW, function (sw, index) {
-            return new SW(sw);
+        var services = _.map(data.Services, function (service, index) {
+            return new Service(service);
 
         });
+        this.services(services);
         this.serviceCompany = new VehicleServiceCompany(data.VehicleServiceCompany);
     }
 }

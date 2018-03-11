@@ -1,0 +1,45 @@
+﻿<div class="container">
+    
+<input type="text" placeholder="Vehicle VIN" data-bind="value: vehicleVin">
+<button data-bind="click: getVehicleHistoryByVin">Search</button>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Service Date</th>
+                <th>Next Visit Date</th>
+                <th>Current Km</th>
+                <th>Next Visit Km</th>
+                <th>Service</th>
+                <th>Interventions</th>
+                <th>Employees</th>
+            </tr>
+        </thead>
+        <tbody data-bind="foreach: vehicleHistoriesByVin">
+            <tr>
+                <td data-bind="text: ($index() + 1)"></td>
+                <td data-bind="text: serviceDate" ></td>
+                <td data-bind="text: nextVisitDate"></td>
+                <td data-bind="text: currentKm"></td>
+                <td data-bind="text: nextVisitKm"></td>
+                <td data-bind="text: companyName"></td>
+                <td>
+                    <table data-bind="foreach: serviceInterventions">
+                        <tr>
+                            <td data-bind="text: name"></td>
+                        </tr>
+                    </table>
+                </td>
+                <td>
+                    <table data-bind="foreach:employees">
+                        <tr>
+                            <td><span data-bind="text: firstName"></span>&nbsp;<span data-bind="text: lastName"></span></td>
+                        </tr> 
+                    </table>
+                </td>
+            
+
+        </tbody>
+    </table>
+
+</div>

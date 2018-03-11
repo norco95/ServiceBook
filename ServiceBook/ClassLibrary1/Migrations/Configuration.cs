@@ -15,6 +15,7 @@ namespace ServiceBook.DAL.Migrations
 
         protected override void Seed(ServiceBook.DAL.ServiceBookContext context)
         {
+           // context.Database.ExecuteSqlCommand("ALTER TABLE Service ADD CONSTRAINT uc_Review UNIQUE(RID)");
             //  This method will be called after migrating to the latest version.
 
             //  You can use the DbSet<T>.AddOrUpdate() helper extension method 

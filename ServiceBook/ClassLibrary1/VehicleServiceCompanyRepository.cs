@@ -59,23 +59,11 @@ namespace ServiceBook.DAL
             }
 
            
-            if (cco.VehicleServiceCompany != null)
-            {
-                if (cco.VehicleServiceCompany.WorkingPoints != null)
-                {
-                    cco.VehicleServiceCompany.WorkingPoints = null;
-                }
-                if (cco.VehicleServiceCompany.CCO != null)
-                {
-                    cco.VehicleServiceCompany.CCO = null;
-                }
-                if (cco.VehicleServiceCompanyOwner != null)
-                {
-                    cco.VehicleServiceCompanyOwner = null;
-                }
-            }
             return cco;
         }
-
+        public int GetServiceCompanyCount()
+        {
+            return ServiceBookContext.VehicleServiceCompany.Count();
+        }
     }
 }

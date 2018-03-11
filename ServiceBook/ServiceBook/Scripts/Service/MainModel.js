@@ -2,7 +2,6 @@
 {   
     var _self = this;
 
-
     //// ATRIBUTES \\\\
 
     //Error
@@ -66,9 +65,11 @@
     this.selectedEmployee = ko.observable(null);
 
    
+
     //History
     this.serviceDate = ko.observable(null);
     this.vehicleHistories = null;
+    this.vehicleHistoriesByVin = ko.observableArray(null);
     this.vehicleHistory = null;
     this.vehicleHistoryIndex = null;
     this.vehicleHistoryInterventions = ko.observableArray(null);
@@ -78,6 +79,7 @@
     this.vehicleHistoryNextVisitDate = ko.observable(null);
     this.vehicleHistoryNextVisitKm = ko.observable(null);
     this.vehicleHistoryEmployees = ko.observableArray(null);
+    this.vehicleVin = ko.observable("");
 
 
     //// METHODS \\\\
@@ -85,11 +87,9 @@
 
     //Initialize
     this.initialize = function (data) {
-       
         if (data.VehicleServiceCompanies != null) {
             var vehicleServiceCompanies = _.map(data.VehicleServiceCompanies, function (vehicleServiceCompanies, index) {
                 return new VehicleServiceCompany(vehicleServiceCompanies);
-
             });
             _self.vehicleServiceCompanies(vehicleServiceCompanies);
         }
@@ -104,19 +104,10 @@
                 type: "POST",
                 url: "/Service/DeletCompany/",
                 data: {
-
                     ID: data.id
                 },
-
                 success: function (msg) {
-                  //  var vehicleServiceCompanies = _.map(msg.VehicleServiceCompanies, function (vehicleServiceCompanies, index) {
-                    //    return new VehicleServiceCompany(vehicleServiceCompanies);
-
-//                    });
-                    //                  _self.vehicleServiceCompanies(vehicleServiceCompanies);
-
-                    _self.vehicleServiceCompanies.remove(data);
-
+                     _self.vehicleServiceCompanies.remove(data);
                 },
                 dataType: "json"
             });
@@ -137,9 +128,7 @@
 
                     ServiceName: _self.serviceName
                 },
-
-                success: function (msg) {
-                    
+                success: function (msg) {  
                     if (msg.success == true) {
                         _self.vehicleServiceCompanies.push(new VehicleServiceCompany(msg.VehicleServiceCompany));
                         _self.serviceName("");
@@ -158,18 +147,15 @@
         $("#EditCompany").modal("show");
         _self.editServiceName(data.serviceName());
         _self.selectedToEditCompany.id = data.id;
-
     }
     this.saveCompany = function () {
         $.ajax({
             type: "POST",
             url: "/Service/EditServiceCompany/",
             data: {
-
                 ID: _self.selectedToEditCompany.id,
                 ServiceName: _self.editServiceName
             },
-
             success: function (msg) {
                 if (msg.success == true) {
                     $("#EditCompany").modal("hide");
@@ -196,8 +182,7 @@
         _self.workingPoints(data.workingPoints());
     }
 
-
-    //WorkingPoint
+   // WorkingPoint
     this.openaddWorkingPointModal=function()
     {
         _self.newWorkingPoint.country("");
@@ -209,7 +194,6 @@
     this.addWorkingPoint = function ()
     {
         _self.addWorkingPointError("");
-
         if (_self.newWorkingPoint.country() == "") {
             _self.addWorkingPointError(_self.addWorkingPointError() + "*Required to enter the country field" + " <br /> ");
         }
@@ -223,7 +207,6 @@
         if (_self.newWorkingPoint.nr() == "") {
             _self.addWorkingPointError(_self.addWorkingPointError() + "*Required to enter the nr field" + " <br /> ");
         }
-
         if (_self.addWorkingPointError() == "") {
             $.ajax({
                 type: "POST",
@@ -234,9 +217,7 @@
                     Country: _self.newWorkingPoint.country,
                     Nr: _self.newWorkingPoint.nr,
                     VSCID: _self.selectedCompany.id
-
                 },
-
                 success: function (msg) {
                     if (msg.success == true) {
                         var workingPoint = new WorkingPoint(msg.WorkingPoint)
@@ -244,7 +225,6 @@
                         _self.vehicleServiceCompanies().forEach(function (element) {
                             if (element.id == _self.selectedCompany.id) {
                                 element.workingPoints(_self.workingPoints());
-
                             }
                         });
                         _self.addWorkingPointError("");
@@ -254,7 +234,6 @@
                     {
                         _self.addWorkingPointError(msg.messages);
                     }
-
                 },
                 dataType: "json"
             });
@@ -263,47 +242,23 @@
     this.selectWorkingPoint=function(data)
     {
         _self.workingPointIsSelected(true);
-      
         _self.vehicles([]);
-        
                 $.ajax({
                 type: "POST",
                 url: "/Service/SelectWorkingPoint/",
                 data: {
-
-                    
-                   
-                    ID:data.id
-                
-
+                         ID:data.id
                 },
-
                 success: function (msg) {
-                
-                    if(msg.success==true)
+                if(msg.success==true)
                     {
-
-                     //   var vehicles = _.map(msg.Vehicles, function (vehicle, index) {
-                      //      return new Service(vehicle);
-
-                        //                        });
-                        
-                       // _self.vehicles(vehicles);
-                        _self.selectedWorkingPoint = data;
-                        _self.selectedWorkingPoint.sw.forEach(function (element) {
-                           // if (element.service.flag == 0) {
-                                _self.vehicles.push(element.service);
-                           // }
-                        });
-
-                        $('.nav-tabs a[href="#menu2"]').tab('show');
-                        
-
+                    _self.selectedWorkingPoint = data;
+                    _self.vehicles(data.services());
+                    $('.nav-tabs a[href="#menu2"]').tab('show');
                     }
                 },
                 dataType: "json"
-            });
-                
+            });             
     }
     this.deletWorkingPoint = function (data) {
         if (confirm("Are you sure you want to delet?") == true) {
@@ -311,20 +266,16 @@
                 type: "POST",
                 url: "/Service/DeletWorkingPoint/",
                 data: {
-
                     ID: data.id
                 },
-
                 success: function (msg) {
                     var deletElement;
-
                     _self.workingPoints.remove(data);
                     _self.vehicleServiceCompanies().forEach(function (element) {
                         if (element.id == _self.selectedCompany.id) {
                             element.workingPoints(_self.workingPoints());
                         }
                     });
-
                 },
                 dataType: "json"
             });
@@ -338,8 +289,7 @@
         _self.newWorkingPoint.id=data.id;
         _self.workingPointIsASelectedToEdit(true);
     }
-    this.saveEditWorkingPoint = function () {
-        
+    this.saveEditWorkingPoint = function () {    
         $.ajax({
             type: "POST",
             url: "/Service/EditWorkingPoint/",
@@ -349,23 +299,8 @@
                 City: _self.newWorkingPoint.city,
                 Country: _self.newWorkingPoint.country,
                 Nr: _self.newWorkingPoint.nr
-                
-               
-
             },
-
-            success: function (msg) {
-                //var _self.workingPoints = _.map(msg.VehicleServiceCompanies, function (vehicleServiceCompanies, index) {
-                //    return new VehicleServiceCompany(vehicleServiceCompanies);
-
-                //});
-                //vehicleServiceCompanies.forEach(function (element) {
-                //    if(element.id==_self.selectedCompany.id)
-                //    {
-                //        _self.workingPoints(element.workingPoints());
-                //    }
-                //});
-                //_self.vehicleServiceCompanies(vehicleServiceCompanies);
+            success: function (msg) {             
                 var workingPoint = new WorkingPoint(msg.WorkingPoint)
                 _self.workingPoints().forEach(function (element) {
                     if (element.id == _self.newWorkingPoint.id)
@@ -379,13 +314,9 @@
                 _self.vehicleServiceCompanies().forEach(function (element) {
                     if (element.id == _self.selectedCompany.id) {
                         element.workingPoints(_self.workingPoints());
-
                     }
                 });
-
                 $("#AddWorkingPoint").modal("hide");
-
-
             },
             dataType: "json"
         });
@@ -399,7 +330,6 @@
         _self.employees(data.employees());
     }
 
-
     //Interventions
     this.editInterventions = function (data) {
         _self.editInterventionsSelected = data;
@@ -410,21 +340,14 @@
             type: "POST",
             url: "/Service/AddIntervention/",
             data: {
-
                 Price: _self.interventionPrice,
                 Name: _self.interventionName,
-                WorkingPoint: {
-                    ID: _self.editInterventionsSelected.id
-                }
+                WPID: _self.editInterventionsSelected.id  
             },
-
             success: function (msg) {
                 if (msg.success == true) {
                     _self.interventions.push(new ServiceIntervention(msg.Intervention));
                 }
-                
-                
-
                 _self.vehicleServiceCompanies().forEach(function (element) {
                     if (element.id == _self.selectedCompany.id) {
                         element.workingPoints().forEach(function (elmt) {
@@ -432,20 +355,16 @@
                                 elmt.serviceInterventions(_self.interventions());
                             }
                         });
-
                     }
                 });
-               
                 _self.workingPoints().forEach(function (element) {
                     if (element.id == _self.editInterventionsSelected.id)
                     {
                         element.serviceInterventions(_self.interventions());
                     }
                 });
-
                 _self.interventionName("");
                 _self.interventionPrice("");
-
             },
             dataType: "json"
         });
@@ -458,17 +377,14 @@
                 ID: data.id,
                 WP: _self.editInterventionsSelected.id
             },
-
             success: function (msg) {
                 var deletElement;
                 _self.interventions().forEach(function (element) {
                     if (element.id == data.id) {
                         deletElement = element;
-
                     }
                 });
                 _self.interventions.remove(deletElement);
-
                 _self.vehicleServiceCompanies().forEach(function (element) {
                     if (element.id == _self.selectedCompany.id) {
                         element.workingPoints().forEach(function (elmt) {
@@ -476,19 +392,13 @@
                                 elmt.serviceInterventions(_self.interventions());
                             }
                         });
-
                     }
                 });
-
                 _self.workingPoints().forEach(function (element) {
                     if (element.id == _self.editInterventionsSelected.id) {
                         element.serviceInterventions(_self.interventions());
                     }
                 });
-        
-              
-
-
             },
             dataType: "json"
         });
@@ -505,12 +415,10 @@
             type: "POST",
             url: "/Service/EditIntervention/",
             data: {
-
                 Price: _self.interventionPrice,
                 Name: _self.interventionName,
                 ID: _self.interventionId
             },
-
             success: function (msg) {
                 if (msg.success == true) {
                     _self.interventions().forEach(function (element) {
@@ -521,11 +429,9 @@
                         }
                     });
                 }
-
                 var interventions = _self.interventions();
                 _self.interventions([]);
                 _self.interventions(interventions);
-
                 _self.vehicleServiceCompanies().forEach(function (element) {
                     if (element.id == _self.selectedCompany.id) {
                         element.workingPoints().forEach(function (elmt) {
@@ -533,20 +439,16 @@
                                 elmt.serviceInterventions(_self.interventions());
                             }
                         });
-
                     }
                 });
-
                 _self.workingPoints().forEach(function (element) {
                     if (element.id == _self.editInterventionsSelected.id) {
                         element.serviceInterventions(_self.interventions());
                     }
                 });
-
                 _self.editInterventionIsSelected(false);
                 _self.interventionName("");
                 _self.interventionPrice("");
-
             },
             dataType: "json"
         });
@@ -569,8 +471,6 @@
             type: "POST",
             url: "/Service/AddService/",
             data: {
-
-               
                     VIN: _self.VIN,
                     Identifier: _self.identifier,
                     VehicleOwner: {
@@ -579,36 +479,13 @@
                         Email: _self.vehicleOwnerEmail,
                         PhoneNumber: _self.vehicleOwnerPhoneNumber,
                     }
-               
-               
             },
-           
             success: function (msg) {
                 if(msg.success==true)
                 {
-                    //var vehicles = _.map(msg.Vehicles, function (vehicle, index) {
-                    //    return new Service(vehicle);
-
-                    //});
-                    //_self.vehicles(vehicles);
-
-                    _self.vehicleServiceCompanies().forEach(function (element) {
-                        if(element.id==_self.selectedCompany.id)
-                        {
-                            element.workingPoints().forEach(function (elmt) {
-                                if(elmt.id==_self.selectedWorkingPoint.id)
-                                {
-                                    var sw = new SW(msg.SW);
-                                    elmt.sw.push(sw);
-                                }
-                            });
-                            
-                        }
-                    });
-                    _self.vehicles.push(new Service(msg.SW.Service));
+                    _self.vehicles.push(new Service(msg.Service));
                     $("#inputServiceModal").modal("hide");
                 }
-
             },
             dataType: "json"
         });
@@ -620,49 +497,16 @@
                 type: "POST",
                 url: "/Service/DeletService/",
                 data: {
-
                     ID: data.id
                 },
-
                 success: function (msg) {
-                    //var vehicles = _.map(msg.Vehicles, function (vehicle, index) {
-                    //    return new Service(vehicle);
-
-                    //});
-                    //_self.vehicles(vehicles);
-                    var swToDelet = null;
-                    var i=0;
-                    _self.vehicles.remove(data);
-                    _self.vehicleServiceCompanies().forEach(function (element) {
-                        if (element.id == _self.selectedCompany.id) {
-                            element.workingPoints().forEach(function (elmt) {
-                                swToDelet = null;
-                                i = 0;
-                                if (elmt.id == _self.selectedWorkingPoint.id) {
-                                    elmt.sw.forEach(function (elm) {
-
-                                        if (elm.service.id == data.id) {
-                                            swToDelet = i;
-                                        }
-                                        i++;
-                                    });
-                                    if(swToDelet!=null)
-                                    {
-                                        elmt.sw.splice(swToDelet, 1);
-                                    }
-                                }
-                            });
-
-                        }
-                    });
-
+                _self.vehicles.remove(data);
                 },
                 dataType: "json"
             });
         }
     }
     this.endedService = function (data) {
-
         $.ajax({
             type: "POST",
             url: "/Service/EndedService/",
@@ -672,54 +516,20 @@
                 Price: data.price,
                 NextVisitDate: data.nextVisitDate,
                 CurrentKm: data.currentKm,
-                SSI: data.ssi(),
+                ServiceInterventions: data.serviceInterventions(),
                 Vehicle: {
                     Identifier: data.vehicle.identifier,
-
                     VehicleOwner: {
                         Email: data.vehicle.vehicleOwner.email,
                         PhoneNumber: data.vehicle.vehicleOwner.phoneNumber,
                         FirstName: data.vehicle.vehicleOwner.firstName,
                         LastName: data.vehicle.vehicleOwner.lastName
                     }
-                }
-                
+                }  
             },
-
             success: function (msg) {
                 if (msg.success == true) {
-                    //    var vehicles = _.map(msg.Vehicles, function (vehicle, index) {
-                    //        return new Service(vehicle);
-
-                    //    });
-                    //    _self.vehicles(vehicles);
                     _self.vehicles.remove(data);
-                    var swToDelet = null;
-                    var i = 0;
-                    _self.vehicles.remove(data);
-                    _self.vehicleServiceCompanies().forEach(function (element) {
-                        if (element.id == _self.selectedCompany.id) {
-                            element.workingPoints().forEach(function (elmt) {
-                                swToDelet = null;
-                                i = 0;
-                                if (elmt.id == _self.selectedWorkingPoint.id) {
-                                    elmt.sw.forEach(function (elm) {
-
-                                        if (elm.service.id == data.id) {
-                                            swToDelet = i;
-                                        }
-                                        i++;
-                                    });
-                                    if (swToDelet != null) {
-                                        elmt.sw.splice(swToDelet, 1);
-                                    }
-                                }
-                            });
-
-                        }
-                    });
-
-
                 }
             },
             dataType: "json"
@@ -746,48 +556,15 @@
                     VIN: _self.VIN,
                     Identifier: _self.identifier,
                     VehicleOwner: {
-
                         FirstName: _self.vehicleOwnerFirstName,
                         LastName: _self.vehicleOwnerLastName,
                         Email: _self.vehicleOwnerEmail,
                         PhoneNumber: _self.vehicleOwnerPhoneNumber
                     }
                 }
-
-
             },
-
             success: function (msg) {
                 if (msg.success == true) {
-                    //var vehicles = _.map(msg.Vehicles, function (vehicle, index) {
-                    //    return new Service(vehicle);
-
-                    //});
-                    //_self.vehicles(vehicles);
-                    
-                    _self.vehicleServiceCompanies().forEach(function (element) {
-                        if (element.id == _self.selectedCompany.id) {
-                            element.workingPoints().forEach(function (elmt) {
-                                if (elmt.id == _self.selectedWorkingPoint.id) {
-                                    elmt.sw.forEach(function (e) {
-                                        if(e.service.id==_self.vehicleIdToEdit)
-                                        {
-                                            e.service.vehicle.vin = _self.VIN();
-                                            e.service.vehicle.identifier = _self.identifier();
-                                            e.service.vehicle.vehicleOwner.firstName = _self.vehicleOwnerFirstName();
-                                            e.service.vehicle.vehicleOwner.lastName = _self.vehicleOwnerLastName();
-                                            e.service.vehicle.vehicleOwner.email = _self.vehicleOwnerEmail();
-                                            e.service.vehicle.vehicleOwner.phoneNumber = _self.vehicleOwnerPhoneNumber();
-                                        }
-                                    });
-                                }
-                            });
-
-                        }
-                    });
-                    var vehicleServiceCompanies = _self.vehicleServiceCompanies();
-                    _self.vehicleServiceCompanies([]);
-                    _self.vehicleServiceCompanies(vehicleServiceCompanies);
                     _self.vehicles().forEach(function (element) {
                         if (element.id == _self.vehicleIdToEdit) {
                             element.vehicle.vin = _self.VIN();
@@ -798,13 +575,8 @@
                             element.vehicle.vehicleOwner.phoneNumber = _self.vehicleOwnerPhoneNumber();
                         }
                     });
-
-                    var vehicles = _self.vehicles();
-                    _self.vehicles([]);
-                    _self.vehicles(vehicles);
-                        $("#inputServiceModal").modal("hide");
+                    $("#inputServiceModal").modal("hide");
                 }
-
             },
             dataType: "json"
         });
@@ -813,8 +585,6 @@
 
     //Employee
     this.addEmployee = function () {
-
-
         $.ajax({
             type: "POST",
             url: "/Service/AddEmployee",
@@ -826,20 +596,18 @@
                 WPID: _self.selectedWorkingPointToEmployees
 
             },
-
             success: function (msg) {
                 _self.employees.push(new Employee(msg.Employee));
-                //_self.vehicleServiceCompanies().forEach(function (element) {
-                //    if (element.id == _self.selectedCompany.id) {
-                //        element.workingPoints().forEach(function (elmt) {
-                //            if(elmt.id==_self.selectedWorkingPoint.id)
-                //            {
-                //                elmt.employees(_self.employees());
-                //            }
-                //        });
-
-                //    }
-                //});
+                _self.vehicleServiceCompanies().forEach(function (element) {
+                    if (element.id == _self.selectedCompany.id) {
+                        element.workingPoints().forEach(function (elmt) {
+                            if(elmt.id==msg.Employee.WPID)
+                           {
+                                elmt.employees(_self.employees());
+                            }
+                        });
+                    }
+                });
                 $('.nav-tabs a[href="#menu6"]').tab('show');
             },
             dataType: "json"
@@ -867,7 +635,6 @@
                     ID: data.id
 
                 },
-
                 success: function (msg) {
                     var deletEmployee = null;
                     _self.employees().forEach(function (element) {
@@ -878,8 +645,6 @@
                     if (deletEmployee != null) {
                         _self.employees.remove(deletEmployee);
                     }
-
-
                 },
                 dataType: "json"
             });
@@ -905,9 +670,7 @@
                 Email: _self.employeeEmail,
                 PhoneNumber: _self.employeePhoneNumber,
                 ID: _self.employeeId
-
             },
-
             success: function (msg) {
                 _self.employees().forEach(function (element) {
                     if (element.id == _self.employeeId) {
@@ -935,28 +698,18 @@
         if (exist == false) {
             _self.selectedEmployees.push(_self.selectedEmployee());
         }
-
     }
     this.deletEmployeeFromSelectedEmployees = function (data) {
             _self.selectedEmployees.remove(data);
      }
-
 
     //Repairs
     this.addRepairs = function (data) {
         document.getElementById("date").value =data.nextVisitDate();
         _self.interventions(_self.selectedWorkingPoint.serviceInterventions());
         _self.employees(_self.selectedWorkingPoint.employees());
-        // _self.selectedVehicle = data;
-        _self.selectedInterventions([]);
-        data.ssi().forEach(function (element) {
-            _self.selectedInterventions.push(element.serviceIntervention)
-        });
-        _self.selectedEmployees([]);
-        data.se.forEach(function (element) {
-            _self.selectedEmployees.push(element.employee);
-        });
-        _self.selectedVehicle.ssi(data.ssi());
+        _self.selectedInterventions(data.serviceInterventions());
+        _self.selectedEmployees(data.employees());
         _self.selectedVehicle.price(data.price());
         _self.selectedVehicle.id=data.id;
         _self.selectedVehicle.nextVisitKm(data.nextVisitKm());
@@ -971,87 +724,36 @@
             {
                 exist = true;
             }
-
         });
         if (exist == false) {
             _self.selectedInterventions.push(_self.selectedIntervention());
         }
     }
     this.saveRepairs = function () {
-
-        _self.selectedVehicle.ssi([]);
-        _self.selectedInterventions().forEach(function (element) {
-            var ssi = new SSI();
-            ssi.serviceIntervention = element;
-            _self.selectedVehicle.ssi.push(ssi);
-        });
-        _self.selectedVehicle.se=[];
-        _self.selectedEmployees().forEach(function (element) {
-            var se= new SE();
-            se.employee = element;
-            _self.selectedVehicle.se.push(se);
-        });
-    
-        
         $.ajax({
             type: "POST",
             url: "/Service/SaveRepairs/",
             data: {
                 ID: _self.selectedVehicle.id,
-                SSI: _self.selectedVehicle.ssi(),
+                ServiceInterventions: _self.selectedInterventions(),
                 CurrentKm: _self.selectedVehicle.currentKm,
                 NextVisitKm: _self.selectedVehicle.nextVisitKm,
                 NextVisitDate: _self.selectedVehicle.nextVisitDate(),
-                SE: _self.selectedVehicle.se
-                
+                Employees: _self.selectedEmployees()  
             },
-
             success: function (msg) {
-
-                //var serviceInterventions = _.map(msg.ServiceInterventions, function (si, index) {
-                //    _self.selectedVehicle.price(_self.selectedVehicle.price()+si.Price);
-                //    return new ServiceIntervention(si);
-
-                //});
-                
-                //  _self.vehicles().forEach(function (element) {
-                //    if(element.id==_self.selectedVehicle.id)
-                //    {
-                //        serviceInterventions.forEach(function (elmen) {
-                //            var ssi=new SSI();
-                //            ssi.serviceIntervention = elmen;
-                //            element.ssi.push(ssi);
-                           
-                //        });
-                //        element.nextVisitDate(_self.selectedVehicle.nextVisitDate());
-                //        element.nextVisitKm (_self.selectedVehicle.nextVisitKm());
-                //        element.currentKm ( _self.selectedVehicle.currentKm());
-                //        element.price(_self.selectedVehicle.price());     
-                //    }
-                //});
-               
                 _self.vehicles().forEach(function (element) {
-                    if (element.id == _self.selectedVehicle.id) {
-                        var ssi = _.map(msg.Service.SSI, function (ssi, index) {
-                            return new SSI(ssi);
-
-                        });
-                        element.ssi(ssi);
-
-                        var se = _.map(msg.Service.SE, function (se, index) {
-                            return new SE(se);
-
-                        });
-                        element.se = se;
-                        element.price(msg.Service.Price);
-                        element.nextVisitDate(convertToFormatJs(msg.Service.NextVisitDate));
-                        element.nextVisitKm (msg.Service.NextVisitKm);
-                        element.currentKm (msg.Service.CurrentKm);
+                    if(element.id==_self.selectedVehicle.id)
+                    {
+                        element.price(msg.Price);
+                        element.nextVisitDate(_self.selectedVehicle.nextVisitDate());
+                        element.nextVisitKm(_self.selectedVehicle.nextVisitKm());
+                        element.currentKm(_self.selectedVehicle.currentKm());
+                        element.employees(_self.selectedEmployees());
+                        element.serviceInterventions(_self.selectedInterventions());
                     }
                 });
                 $("#inputRepairsModal").modal("hide");
-
-               
             },
             dataType: "json"
         });
@@ -1059,35 +761,53 @@
     this.deletFromSelectedInterventions = function (data) {
             _self.selectedInterventions.remove(data);          
     }
- 
 
     //History
+    this.getVehicleHistoryByVin = function () {
+        $.ajax({
+            type: "POST",
+            url: "/Service/GetVehicleHistory/",
+            data: {
+                Vehicle: {
+                    VIN: _self.vehicleVin
+                }
+
+            },
+            success: function (msg) {
+                if (msg.success == true) {
+                    var vehicleHistories = _.map(msg.VehicleHistory, function (vehicleHistory, index) {
+                        return new Service(vehicleHistory);
+                    });
+                    _self.vehicleHistoryInterventions([]);
+                    _self.vehicleHistoriesByVin(vehicleHistories);
+                    _self.vehicleHistories = vehicleHistories;
+                    _self.vehicleHistoryIndex = vehicleHistories.length - 1;
+                    _self.setVehicleHistory();
+                }
+            },
+            dataType: "json"
+        });
+    }
     this.getVehicleHistory = function (data) {
         $.ajax({
             type: "POST",
             url: "/Service/GetVehicleHistory/",
             data: {
-                
-                    ID: data.vehicle.id,
-                    VIN:data.vehicle.vin
-                
-              
+                Vehicle:{
+                    ID: data.vehicle.id
+                }
+                                
             },
-
-            success: function (msg) {
-                
+            success: function (msg) {  
                 if(msg.success==true)
                 {
-                    
                     var vehicleHistories = _.map(msg.VehicleHistory, function (vehicleHistory, index) {
                             return new Service(vehicleHistory);
-
                         });
                     _self.vehicleHistoryInterventions([]);
                     _self.vehicleHistories = vehicleHistories;
                     _self.vehicleHistoryIndex = vehicleHistories.length - 1;
                     _self.setVehicleHistory();
-                   
                 }
             },
             dataType: "json"
@@ -1101,53 +821,36 @@
         _self.vehicleHistoryCurrentKm(_self.vehicleHistory.currentKm());
         _self.vehicleHistoryNextVisitDate(_self.vehicleHistory.nextVisitDate());
         _self.vehicleHistoryNextVisitKm(_self.vehicleHistory.nextVisitKm());
-        _self.vehicleHistory.ssi().forEach(function (element) {
-            _self.vehicleHistoryInterventions.push(element.serviceIntervention);
-        });
-        _self.vehicleHistory.se.forEach(function (element) {
-            _self.vehicleHistoryEmployees.push(element.employee);
-        });
-
-        _self.vehicleHistory.sw.forEach(function (element) {
-            _self.vehicleHistoryWorkingPoint(" " + element.workingPoint.country() + ", " + element.workingPoint.city() + ", " + element.workingPoint.street() + ", " + element.workingPoint.nr());
-            _self.vehicleHistoryServiceCompany("Service Name: "+element.workingPoint.serviceCompany.serviceName());
-        });
+        _self.vehicleHistoryInterventions(_self.vehicleHistory.serviceInterventions());
+        _self.vehicleHistoryEmployees(_self.vehicleHistory.employees());
+        _self.vehicleHistoryWorkingPoint(_self.vehicleHistory.workingPoint());
+        _self.vehicleHistoryServiceCompany("Service Name: " + _self.vehicleHistory.companyName());
+      
        
     }
     this.firstHistory = function () {
-        
         _self.vehicleHistoryIndex = 0
         _self.setVehicleHistory();
-        
     }
     this.lastHistory = function () {
-       
         _self.vehicleHistoryIndex = _self.vehicleHistories.length - 1;
         _self.setVehicleHistory();
-       
     }
-    this.nextHistory = function () {
-        
-        if (_self.vehicleHistoryIndex < _self.vehicleHistories.length - 1) {
-            
+    this.nextHistory = function () {    
+        if (_self.vehicleHistoryIndex < _self.vehicleHistories.length - 1) {       
             _self.vehicleHistoryIndex++;
             _self.setVehicleHistory();
         }
     }
     this.previousHistory=function(){
-        if (_self.vehicleHistoryIndex > 0) {
-           
+        if (_self.vehicleHistoryIndex > 0) { 
             _self.vehicleHistoryIndex--;
             _self.setVehicleHistory();
         }
     }
-
-
 }
 function InitializeMainModel(data) {
     MainModel.instance = new MainModel();
-
     MainModel.instance.initialize(data);
-
     ko.applyBindings(MainModel.instance);
 }

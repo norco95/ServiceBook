@@ -25,7 +25,6 @@
 
 </head>
 <body>
-
     <header id="home" class="header">
         <div class="main_menu_bg navbar-fixed-top">
             <div class="container">
@@ -45,7 +44,21 @@
 
                                 </div>
 
-                                <a href="#"><img src="~/Content/images/logo.png" alt="" /></a>
+                                <div class="navbar-header">
+                                    <a href="#"><img src="~/Content/images/logo.png" alt="" /></a>
+                                </div>
+                                <ul class="nav navbar-nav">
+                                    <li><a href="Service">Service</a></li>
+                                    <li><a href="DateTehcnice">Date Tehcnice</a></li>
+                                    <li><a href="VehicleOffer">Vehicle Offer</a></li>
+                                    <li><a href="WorkingPoint">Working Point</a></li>
+                                </ul>
+                            </div>
+                                
+                                
+                                
+                                
+                               
                                 @Html.Partial("_LoginPartial")
 
 
@@ -71,7 +84,7 @@
         <div class="container">
             <div class="row">
                 <div class="main_footer text-center wow zoomIn" data-wow-duration="1s">
-                    <p>Made by Orban Norbert 2017. All Rights Reserved</p>
+                    <p>Made by Orban Norbert <span id="year"></span>  All Rights Reserved</p>
                 </div>
             </div>
         </div>
@@ -83,12 +96,7 @@
 
     @Scripts.Render("~/bundles/modernizr")
     <script type="text/javascript" src="~/Scripts/script.js"></script>
-
-
-
-
     <script type="text/javascript" src="~/Scripts/owl-carousel/owl.carousel.min.js"></script>
-
     <script type="text/javascript" src="~/Scripts/wow/wow.min.js"></script>
 
 

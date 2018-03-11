@@ -7,12 +7,12 @@
     this.nextVisitDate=ko.observable(null);
     this.currentKm=ko.observable(0);
     this.nextVisitKm=ko.observable(0);
-    this.vid = null;
-    this.vehicle = new Vehicle();
-    this.ssi = ko.observableArray(null);
-    this.se = null;
-    this.sw = null;
+    this.vehicle = null;
+    this.serviceInterventions = ko.observableArray(null);
+    this.employees = ko.observableArray(null);
     this.price = ko.observable(0);
+    this.workingPoint=ko.observable("");
+    this.companyName=ko.observable("");
     if(data!=null)
     {
         this.id=data.ID;
@@ -20,24 +20,23 @@
         this.flag=data.Flag;
         this.nextVisitDate(convertToFormatJs(data.NextVisitDate));
         this.currentKm(data.CurrentKm);
+        this.workingPoint(data.WorkingPoint);
+        this.companyName(data.CompanyName);
         this.nextVisitKm(data.NextVisitKm);
-        this.vid = data.VID;
         this.vehicle = new Vehicle(data.Vehicle);
         this.price(data.Price);
-        var ssi = _.map(data.SSI, function (ssi, index) {
-            return new SSI(ssi);
+        var serviceInterventions = _.map(data.ServiceInterventions, function (serviceInterventions, index) {
+            return new ServiceIntervention(serviceInterventions);
 
         });
-        this.ssi(ssi);
-        this.sw = _.map(data.SW, function (sw, index) {
-            return new SW(sw);
+        this.serviceInterventions(serviceInterventions);
+      
+
+        var employees = _.map(data.Employees, function (employee, index) {
+            return new Employee(employee);
 
         });
-        this.se = _.map(data.SE, function (se, index) {
-            return new SE(se);
-
-        });
-        
+        this.employees(employees);
     }
 }
 

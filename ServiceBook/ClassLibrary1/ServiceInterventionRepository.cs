@@ -12,44 +12,13 @@ namespace ServiceBook.DAL
         private ServiceBookContext ServiceBookContext = new ServiceBookContext();
         public ServiceIntervention AddIntervention(ServiceIntervention ServiceIntervention)
         {
-            WorkingPoint WorkingPoint=ServiceBookContext.WorkingPoint.FirstOrDefault(x => x.ID == ServiceIntervention.WorkingPoint.ID);
+            WorkingPoint WorkingPoint=ServiceBookContext.WorkingPoint.FirstOrDefault(x => x.ID == ServiceIntervention.WP);
             ServiceIntervention.WorkingPoint = WorkingPoint;
             ServiceIntervention.Currency = new Currency();
             ServiceIntervention.Currency.Name = "Euro";
             ServiceIntervention.Flag = 0;
             ServiceBookContext.ServiceIntervention.Add(ServiceIntervention);
             ServiceBookContext.SaveChanges();
-
-
-            if (ServiceIntervention.WorkingPoint != null)
-            {
-                if (ServiceIntervention.WorkingPoint.ServiceInterventions != null)
-                {
-                    ServiceIntervention.WorkingPoint.ServiceInterventions = null;
-                }
-                if (ServiceIntervention.Currency.ServiceIntervention != null)
-                {
-                    ServiceIntervention.Currency.ServiceIntervention = null;
-                }
-                if (ServiceIntervention.WorkingPoint.VehicleServiceCompany.WorkingPoints != null)
-                {
-                    ServiceIntervention.WorkingPoint.VehicleServiceCompany.WorkingPoints = null;
-
-                }
-
-                if (ServiceIntervention.WorkingPoint.SW != null)
-                {
-                    ServiceIntervention.WorkingPoint.SW = null;
-                }
-                if (ServiceIntervention.WorkingPoint.VehicleServiceCompany != null)
-                {
-                    ServiceIntervention.WorkingPoint.VehicleServiceCompany = null;
-                }
-                if(ServiceIntervention.WorkingPoint.Employees!=null)
-                {
-                    ServiceIntervention.WorkingPoint.Employees = null;
-                }
-            }
             return ServiceIntervention;
         }
         public void EditServiceIntervention(ServiceIntervention ServiceIntervention)

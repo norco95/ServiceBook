@@ -16,14 +16,7 @@ namespace ServiceBook.DAL
             Employee.Flag = 0;
             WorkingPoint.Employees.Add(Employee);
             ServiceBookContext.SaveChanges();
-            if(Employee.WorkingPoint!=null)
-            {
-                Employee.WorkingPoint = null;
-            }
-            if(Employee.SE!=null)
-            {
-                Employee.SE = null;
-            }
+          
             return Employee;
         }
 

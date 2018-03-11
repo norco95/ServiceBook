@@ -3,9 +3,72 @@
 .table-hover tbody tr:hover td, .table-hover tbody tr:hover th {
   background-color: #0094ff;
   color: #ffffff;
+   cursor: pointer;
 
 }
 
 .error{
     color:red;
+}
+
+.tablediv {
+height:400px;
+}
+
+.delete{
+    text-align:right;
+}
+
+
+
+.index{
+  width:25px;
+}
+
+.table-fixed tbody {
+    height: 300px;
+    overflow-y: auto;
+    width: 100%;
+}
+
+.table-fixed thead,
+.table-fixed tbody,
+.table-fixed tr,
+.table-fixed td,
+.table-fixed th {
+    display: block;
+}
+.table-fixed tr:after {
+    content: "";
+    display: block;
+    visibility: hidden;
+    clear: both;
+    overflow-y:auto;
+    
+}
+
+.table-fixed tbody td,
+.table-fixed thead > tr > th {
+    float: left;
+}
+
+
+.table > thead > tr > th,
+.table > thead > tr > td {
+    font-size: .9em;
+    font-weight: 400;
+    border-bottom: 0;
+    letter-spacing: 1px;
+    vertical-align: auto;
+    padding: 8px;
+    background: #51596a;
+    text-transform: uppercase;
+    color: #ffffff;
+}
+
+.footer{
+    background:#e84c3d;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
 }

@@ -13,7 +13,7 @@ namespace ServiceBook.DAL
         private ServiceBookContext ServiceBookContext = new ServiceBookContext();
       
 
-        public Service SaveRepaire(Service Service)
+        public double SaveRepaire(Service Service)
         {
            
             Service service = ServiceBookContext.Service.FirstOrDefault(x => x.ID == Service.ID);
@@ -78,133 +78,38 @@ namespace ServiceBook.DAL
             }
 
             ServiceBookContext.SaveChanges();
-
-            if(service.SW!=null)
-            {
-                service.SW = null;
-            }
-            if (service.SE != null)
-            {
-                foreach(var se in service.SE)
-                {
-                    if(se.Service!=null)
-                    {
-                        se.Service = null;
-                    }
-                    if(se.Employee!=null)
-                    {
-                        if(se.Employee.WorkingPoint!=null)
-                        {
-                            se.Employee.WorkingPoint = null;
-                        }
-                        if (se.Employee.SE != null)
-                        {
-                            se.Employee.SE = null;
-                        }
-                       
-                    }
-                }
-               
-            }
-            if(service.SSI!=null)
-            {
-                foreach(var ssi in service.SSI)
-                {
-                    if(ssi.Service!=null)
-                    {
-                        ssi.Service = null;
-                    }
-                    if(ssi.ServiceIntervention!=null)
-                    {
-                        if(ssi.ServiceIntervention.SSI!=null)
-                        {
-                            ssi.ServiceIntervention.SSI = null;
-                        }
-                        if(ssi.ServiceIntervention.Currency!=null)
-                        {
-                            ssi.ServiceIntervention.Currency = null;
-                        }
-                        if(ssi.ServiceIntervention.WorkingPoint!=null)
-                        {
-                            ssi.ServiceIntervention.WorkingPoint = null;
-                        }
-                        
-                    }
-                }
-            }
-            if(service.Vehicle!=null)
-
-            {
-                service.Vehicle = null;
-            }
-
-            return service;
+            return price;
         }
 
-        public SW AddService(int WorkingPointId, Vehicle Vehicle)
+        public Service AddService(int WorkingPointId, Vehicle Vehicle)
         {
             var WorkingPoint = ServiceBookContext.WorkingPoint.FirstOrDefault(x => x.ID == WorkingPointId);
             var vehicle = ServiceBookContext.Vehicle.FirstOrDefault(x => x.VIN == Vehicle.VIN);
             var owner = ServiceBookContext.VehicleOwner.FirstOrDefault(x => x.Email == Vehicle.VehicleOwner.Email && x.PhoneNumber == Vehicle.VehicleOwner.PhoneNumber);
-            SW sw = new SW();
-            sw.WorkingPoint = WorkingPoint;
-            sw.Service = new Service();
+
+            Service s = new Service();
             if (vehicle != null)
             {
-                sw.Service.Vehicle = vehicle;   
+                s.Vehicle = vehicle;
             }
             else
             {
-                sw.Service.Vehicle = Vehicle;
+                s.Vehicle = Vehicle;
             }
             if (owner != null)
             {
-                sw.Service.Vehicle.VehicleOwner = owner;
+                s.Vehicle.VehicleOwner = owner;
             }
-            sw.Service.Flag = 0;
-            sw.Service.NextVisitKm = 0;
-            sw.Service.CurrentKm = 0;
-            sw.Service.NextVisitDate = DateTime.Now;
-            sw.Service.ServiceDate = DateTime.Now;
+            s.Flag = 0;
+            s.NextVisitKm = 0;
+            s.CurrentKm = 0;
+            s.NextVisitDate = DateTime.Now;
+            s.ServiceDate = DateTime.Now;
+            WorkingPoint.Services.Add(s);
             
-            ServiceBookContext.SW.Add(sw);
             ServiceBookContext.SaveChanges();
-            if (sw.Service != null)
-            {
-                if (sw.Service.SE != null)
-                {
-                    sw.Service.SE = null;
-                }
-                if (sw.Service.SSI != null)
-                {
-                    sw.Service.SSI = null;
-                }
-                if (sw.Service.SW != null)
-                {
-                    sw.Service.SW = null;
-                }
-                if (sw.Service.Vehicle != null)
-                {
-                    if (sw.Service.Vehicle.Services != null)
-                    {
-                        sw.Service.Vehicle.Services = null;
-                    }
-                    if (sw.Service.Vehicle.VehicleOwner != null)
-                    {
-                        if (sw.Service.Vehicle.VehicleOwner.Vehicles != null)
-                        {
-                            sw.Service.Vehicle.VehicleOwner.Vehicles = null;
-                        }
-                    }
 
-                }
-            }
-            if (sw.WorkingPoint != null)
-            {
-                sw.WorkingPoint = null;
-            }
-            return sw;
-
+            return s;
         }
 
         public void DeletService(Service Service)
@@ -222,110 +127,25 @@ namespace ServiceBook.DAL
             ServiceBookContext.SaveChanges();
         }
 
+        
+
         public List<Service> GetVehicleHistory(Vehicle Vehicle)
         {
 
-            var VehicleHisotry = ServiceBookContext.Vehicle.FirstOrDefault(x => x.ID == Vehicle.ID);
-            var services = VehicleHisotry.Services.Where(x => x.Flag == 1);
+            List<Service> History = new List<Service>();
+            var vehicle = new Vehicle();
 
-            List<Service> VehicleHisotries = new List<Service>();
-            foreach (var history in services.ToList())
+            if (Vehicle.ID != null)
             {
-               
-                if(history.Vehicle!=null)
-                {
-                    history.Vehicle.Services = null;
-                    if(history.Vehicle.VehicleOwner!=null)
-                    {
-                        history.Vehicle.VehicleOwner.Vehicles = null;
-                    }
-                    
-                }
-                if (history.SW != null)
-                {
-                    foreach(var sw in history.SW)
-                    {
-                        if(sw.Service!=null)
-                        {
-                            sw.Service = null;
-                        }
-                        if(sw.WorkingPoint!=null)
-                        {
-                            if(sw.WorkingPoint.Employees!=null)
-                            {
-                                sw.WorkingPoint.Employees = null;
-                            }
-                            if(sw.WorkingPoint.ServiceInterventions!=null)
-                            {
-                                sw.WorkingPoint.ServiceInterventions = null;
-                            }
-                            if(sw.WorkingPoint.SW!=null)
-                            {
-                                sw.WorkingPoint.SW = null;
-                            }
-                            if (sw.WorkingPoint.VehicleServiceCompany.WorkingPoints != null)
-                            {
-                                sw.WorkingPoint.VehicleServiceCompany.WorkingPoints = null;
-                            }
-                            if(sw.WorkingPoint.VehicleServiceCompany.CCO!=null)
-                            {
-                                sw.WorkingPoint.VehicleServiceCompany.CCO = null;
-                            }
-                        }
-                    }
-                }
-                if (history.SE != null)
-                {
-                   foreach(var se in history.SE)
-                    {
-                        if (se.Service != null)
-                        {
-                            se.Service = null;
-                        }
-                        if(se.Employee!=null)
-                        {
-                            if(se.Employee.SE!=null)
-                            {
-                                se.Employee.SE = null;
-                            }
-                            if(se.Employee.WorkingPoint!=null)
-                            {
-                                se.Employee.WorkingPoint = null;
-                            }
-                        }
-                    }
-                }
-                if (history.SSI != null)
-                {
-                    foreach(var ssi in history.SSI)
-                    {
-                        if (ssi.ServiceIntervention != null)
-                        {
-                            if (ssi.ServiceIntervention.SSI != null)
-                            {
-                                ssi.ServiceIntervention.SSI = null;
-                            }
-                            if (ssi.ServiceIntervention.WorkingPoint != null)
-                            {
-                                ssi.ServiceIntervention.WorkingPoint = null;
-                            }
-                            if (ssi.ServiceIntervention.Currency != null)
-                            {
-                                ssi.ServiceIntervention.Currency = null;
-                            }
-                            
-                        }
-                        
-                        ssi.Service = null;
-                    }
-
-                }
-                
-                VehicleHisotries.Add(history);
+                vehicle = ServiceBookContext.Vehicle.FirstOrDefault(x => x.ID == Vehicle.ID);
             }
-
-
-            return VehicleHisotries;
+            if(Vehicle.VIN!=null)
+            {
+                vehicle = ServiceBookContext.Vehicle.FirstOrDefault(x => x.VIN == Vehicle.VIN);
+            }
+            
+            History = vehicle.Services.Reverse().ToList();
+            return History;
         }
 
         public void EditService(Service Service)

@@ -11,16 +11,22 @@ namespace ServiceBook.DAL
     {
         ServiceBookContext ServiceBookContext = new ServiceBookContext();
         ServiceRepository ServiceRepository = new ServiceRepository();
-        public List<Vehicle> getVehiclesByWorkingPoint(int id)
-        {
-            List<Vehicle> vehicles = new List<Vehicle>();
-            var sw= ServiceBookContext.SW.Where(x => x.WorkingPoint.ID == id && x.Service.Flag == 0);
-            foreach(var s in sw)
-            {
-                vehicles.Add(s.Service.Vehicle);
-            }
 
-            return vehicles;
-        } 
+        public int GetVehicleCount()
+        {
+            int n=ServiceBookContext.Vehicle.Count();
+            return n;
+        }
+        //public List<Vehicle> getVehiclesByWorkingPoint(int id)
+        //{
+        //    List<Vehicle> vehicles = new List<Vehicle>();
+        //    var sw= ServiceBookContext.SW.Where(x => x.WorkingPoint.ID == id && x.Service.Flag == 0);
+        //    foreach(var s in sw)
+        //    {
+        //        vehicles.Add(s.Service.Vehicle);
+        //    }
+
+        //    return vehicles;
+        //} 
     }
 }

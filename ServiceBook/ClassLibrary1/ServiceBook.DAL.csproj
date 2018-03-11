@@ -65,9 +65,9 @@
     <Compile Include="Interfaces\IRepository.cs" />
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\CCO.cs" />
+    <Compile Include="Models\Review.cs" />
     <Compile Include="Models\SE.cs" />
     <Compile Include="Models\SSI.cs" />
-    <Compile Include="Models\SW.cs" />
     <Compile Include="Models\VehicleOwner.cs" />
     <Compile Include="Models\Currency.cs" />
     <Compile Include="Models\Employee.cs" />
@@ -78,6 +78,7 @@
     <Compile Include="Models\Vehicle.cs" />
     <Compile Include="Models\WorkingPoint.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ReviewRepository.cs" />
     <Compile Include="ServiceBookContext.cs" />
     <Compile Include="ServiceBookInitializer.cs" />
     <Compile Include="ServiceInterventionRepository.cs" />
@@ -92,6 +93,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <None Include="ClassDiagram1.cd" />
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

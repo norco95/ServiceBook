@@ -20,12 +20,20 @@ namespace ServiceBook.DAL.Models
         public int NextVisitKm { get; set; }
         public double Price { get; set; }
         public int VID { get; set; }
+        public int WPID { get; set; }
+        public int? RID { get; set; }
+        
 
         [ForeignKey("VID")]
         public virtual Vehicle Vehicle { get; set; }
+        [ForeignKey("WPID")]
+        public virtual WorkingPoint WorkingPoint{ get ;set; }
+
+        [ForeignKey("RID")]
+        public virtual Review Review { get; set; }
         public virtual ICollection<SSI> SSI { get; set; }
         public virtual ICollection<SE> SE { get; set; }
-        public virtual ICollection<SW> SW { get; set; }
+       
 
 
     }

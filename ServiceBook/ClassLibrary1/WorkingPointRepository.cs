@@ -38,18 +38,8 @@ namespace ServiceBook.DAL
                 ServiceBookContext.SaveChanges();
             }
            
-            if(WorkingPoint.SW!=null)
-            {
-                WorkingPoint.SW = null;   
-            }
-            if(WorkingPoint.ServiceInterventions!=null)
-            {
-                WorkingPoint.ServiceInterventions = null;
-            }
-            if(WorkingPoint.VehicleServiceCompany!=null)
-            {
-                WorkingPoint.VehicleServiceCompany = null;
-            }
+            
+          
             return WorkingPoint;
         }
         public void DeletWorkingPoint(WorkingPoint WorkingPoint)
@@ -66,6 +56,10 @@ namespace ServiceBook.DAL
             workingPoint.City = WorkingPoint.City;
             workingPoint.Country = WorkingPoint.Country;
             ServiceBookContext.SaveChanges();
+        }
+        public int GetWorkingPointCount()
+        {
+            return ServiceBookContext.WorkingPoint.Count();
         }
     }
 }

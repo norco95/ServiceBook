@@ -26,3 +26,17 @@ C:\Users\OrbanNorbert\Documents\GitHub\ServiceBook\ServiceBook\ClassLibrary1\bin
 C:\Users\OrbanNorbert\Documents\GitHub\ServiceBook\ServiceBook\ClassLibrary1\obj\Debug\ServiceBook.DAL.csprojResolveAssemblyReference.cache
 C:\Users\OrbanNorbert\Documents\GitHub\ServiceBook\ServiceBook\ClassLibrary1\obj\Debug\ServiceBook.DAL.dll
 C:\Users\OrbanNorbert\Documents\GitHub\ServiceBook\ServiceBook\ClassLibrary1\obj\Debug\ServiceBook.DAL.pdb
+D:\Allamvizsga 2018.02.22\ServiceBook\ServiceBook\ClassLibrary1\obj\Debug\ServiceBook.DAL.csprojResolveAssemblyReference.cache
+D:\Allamvizsga 2018.02.22\ServiceBook\ServiceBook\ClassLibrary1\obj\Debug\ServiceBook.DAL.dll
+D:\Allamvizsga 2018.02.22\ServiceBook\ServiceBook\ClassLibrary1\obj\Debug\ServiceBook.DAL.pdb
+D:\Allamvizsga 2018.02.22\ServiceBook\ServiceBook\ClassLibrary1\bin\Debug\ServiceBook.DAL.dll.config
+D:\Allamvizsga 2018.02.22\ServiceBook\ServiceBook\ClassLibrary1\bin\Debug\ServiceBook.DAL.dll
+D:\Allamvizsga 2018.02.22\ServiceBook\ServiceBook\ClassLibrary1\bin\Debug\ServiceBook.DAL.pdb
+D:\Allamvizsga 2018.02.22\ServiceBook\ServiceBook\ClassLibrary1\bin\Debug\EntityFramework.dll
+D:\Allamvizsga 2018.02.22\ServiceBook\ServiceBook\ClassLibrary1\bin\Debug\EntityFramework.SqlServer.dll
+D:\Allamvizsga 2018.02.22\ServiceBook\ServiceBook\ClassLibrary1\bin\Debug\Microsoft.AspNet.Identity.Core.dll
+D:\Allamvizsga 2018.02.22\ServiceBook\ServiceBook\ClassLibrary1\bin\Debug\Microsoft.AspNet.Identity.EntityFramework.dll
+D:\Allamvizsga 2018.02.22\ServiceBook\ServiceBook\ClassLibrary1\bin\Debug\EntityFramework.xml
+D:\Allamvizsga 2018.02.22\ServiceBook\ServiceBook\ClassLibrary1\bin\Debug\EntityFramework.SqlServer.xml
+D:\Allamvizsga 2018.02.22\ServiceBook\ServiceBook\ClassLibrary1\bin\Debug\Microsoft.AspNet.Identity.Core.xml
+D:\Allamvizsga 2018.02.22\ServiceBook\ServiceBook\ClassLibrary1\bin\Debug\Microsoft.AspNet.Identity.EntityFramework.xml

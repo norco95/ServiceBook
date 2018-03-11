@@ -8,14 +8,15 @@ using System.Threading.Tasks;
 
 namespace ServiceBook.DAL.Models
 {
-    public class SW
+    public class Review
     {
         [Key]
+        public int ID { get; set; }
+        public int Rate { get; set; } 
+        public String Description { get; set; }
         public int SID { get; set; }
-        public int WID { get; set; }
         [ForeignKey("SID")]
-        public virtual Service Service { get; set; }
-        [ForeignKey("WID")]
-        public virtual WorkingPoint WorkingPoint { get; set; }
+        public virtual Service Service{get;set;}
+     
     }
 }
