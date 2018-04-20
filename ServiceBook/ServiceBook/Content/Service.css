@@ -65,7 +65,10 @@ height:400px;
     text-transform: uppercase;
     color: #ffffff;
 }
-
+.btn {
+    background-color:#51596a;
+    margin-bottom:10px;
+}
 .footer{
     background:#e84c3d;
     position: fixed;

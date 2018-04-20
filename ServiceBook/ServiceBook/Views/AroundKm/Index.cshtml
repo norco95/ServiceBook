@@ -1,0 +1,42 @@
+﻿@model ServiceBook.Models.AroundKmViewModel
+<br><br>
+<div class="container">
+    <div class="row">
+        <input type="text" placeholder="Vehicle VIN" data-bind="value: vehicleVin">
+        <button data-bind="click: getAroundKm" class="btn btn-primary">Search<span class="glyphicon glyphicon-search"></span></button>
+    </div>
+    <!-- ko if: existVin() == true  -->
+    <div class="row">
+        <b>Not found this car!</b>
+        </div>
+    <!-- /ko -->
+    <!-- ko if: exist() == true  -->
+
+
+  
+    <div class="row">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Last Service Date</th>
+                    <th>Last Service Km</th>
+                    <th>Around Km</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td data-bind="text: lastServiceDate"></td>
+                    <td data-bind="text: lastKm"></td>
+                    <td ><b data-bind="text: aroundKm"></b></td>
+                </tr>
+                
+            </tbody>
+        </table>
+        </div>
+    <!-- /ko -->
+</div>
+    <script type="text/javascript" src="~/Scripts/AroundKm/AroundKm.js"></script>
+    <script type="text/javascript" src="~/Scripts/General.js"></script>
+    <script type="text/javascript">
+    InitializeAroundKm(@Html.Raw(Json.Encode(Model)));
+    </script>

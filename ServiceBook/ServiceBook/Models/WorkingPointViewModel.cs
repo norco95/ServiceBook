@@ -18,10 +18,16 @@ namespace ServiceBook.Models
         public string Street { get; set; }     
         public string Nr { get; set; }  
         public int VSCID { get; set; }
+        public string CompanyName { get; set; }
         public List<EmployeeViewModel> Employees { get; set; }
 
         public List<ServiceInterventionViewModel> ServiceInterventions { get; set; }
         public List<ServiceViewModel> Services { get; set; }
+
+        public double Rate { get; set; }
+
+        public List<String> Reviews { get; set; }
+        
 
     }
 }

@@ -13,11 +13,20 @@ namespace ServiceBook.DAL
         public Employee AddEmployee(Employee Employee)
         {
             WorkingPoint WorkingPoint = ServiceBookContext.WorkingPoint.FirstOrDefault(x => x.ID == Employee.WPID);
-            Employee.Flag = 0;
-            WorkingPoint.Employees.Add(Employee);
-            ServiceBookContext.SaveChanges();
-          
-            return Employee;
+            Employee employee = WorkingPoint.Employees.FirstOrDefault(x => x.PhoneNumber == Employee.PhoneNumber);
+            if (employee == null)
+            {
+                Employee.Flag = 0;
+                WorkingPoint.Employees.Add(Employee);
+                ServiceBookContext.SaveChanges();
+                return Employee;
+            }
+           
+          else
+            {
+                return null;
+            }
+            
         }
 
         public void DeletEmployee(Employee Employee)
@@ -28,14 +37,21 @@ namespace ServiceBook.DAL
 
         }
 
-        public void EditEmployee(Employee Employee)
+        public Employee EditEmployee(Employee Employee)
         {
             Employee EditEmployee = ServiceBookContext.Employee.FirstOrDefault(x => x.ID == Employee.ID);
-            EditEmployee.LastName = Employee.LastName;
-            EditEmployee.FirstName = Employee.FirstName;
-            EditEmployee.PhoneNumber = Employee.PhoneNumber;
-            EditEmployee.Email = Employee.Email;
-            ServiceBookContext.SaveChanges();
+            Employee edit = EditEmployee.WorkingPoint.Employees.FirstOrDefault(x => x.PhoneNumber == Employee.PhoneNumber);
+            if(edit==null || edit.ID==EditEmployee.ID)
+            {
+                EditEmployee.LastName = Employee.LastName;
+                EditEmployee.FirstName = Employee.FirstName;
+                EditEmployee.PhoneNumber = Employee.PhoneNumber;
+                EditEmployee.Email = Employee.Email;
+                ServiceBookContext.SaveChanges();
+                return EditEmployee;
+            }
+            return null;
+           
         }
     }
 }

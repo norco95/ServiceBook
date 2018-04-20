@@ -65,5 +65,9 @@ namespace ServiceBook.DAL
         {
             return ServiceBookContext.VehicleServiceCompany.Count();
         }
+        public List<WorkingPoint> GetAllWorkingPoint()
+        {
+            return ServiceBookContext.WorkingPoint.Where(x => x.Flag == 0).ToList();
+        }
     }
 }

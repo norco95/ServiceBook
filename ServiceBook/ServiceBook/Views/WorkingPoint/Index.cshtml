@@ -1,6 +1,134 @@
-﻿@model ServiceBook.Models.WorkingPointsViewModel
+﻿@model ServiceBook.Models.ServicePlaceViewModel
 <br><br>
+
+
+
 <div class="container">
-      
+  
+       <div class="row" >
+           <div class="col-lg-2">
+               <input type="text" data-bind="value: country"  placeholder="Country"/>
+           </div>
+           <div class="col-lg-2">
+               <input type="text" data-bind="value: city"  placeholder="City" />
+           </div>
+           <div class="col-lg-1">
+               <button data-bind="click: search">Search</button>
+            </div>
+       </div>
+       <br><br>
+       <div class="row">
+           
+        <div class="col-lg-12">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>ServiceName</th>
+                        <th>Country</th>
+                        <th>City</th>
+                        <th>Street</th>
+                        <th>Nr</th>
+                        <th>Rate</th>
+                        <th>Reviews</th>
+                    </tr>
+                </thead>
+                <tbody data-bind="foreach: workingPoints">
+                    <tr>
+                        <td data-bind="text: ($index() + 1)"></td>
+                        <td data-bind="text:company"></td>
+                        <td data-bind="text: country"></td>
+                        <td data-bind="text: city"></td>
+                        <td data-bind="text: street"></td>
+                        <td data-bind="text: nr"></td>
+                        <td>
+                            <!-- ko if: rate() == 0 -->
+                            <span class="fa fa-star"></span>
+                            <span class="fa fa-star"></span>
+                            <span class="fa fa-star"></span>
+                            <span class="fa fa-star"></span>
+                            <span class="fa fa-star"></span>
+                            <!-- /ko -->
+                            <!-- ko if: rate() == 1 -->
+                            <span class="fa fa-star checked"></span>
+                            <span class="fa fa-star"></span>
+                            <span class="fa fa-star"></span>
+                            <span class="fa fa-star"></span>
+                            <span class="fa fa-star"></span>
+                            <!-- /ko -->
+                            <!-- ko if: rate() == 2 -->
+                            <span class="fa fa-star checked"></span>
+                            <span class="fa fa-star checked"></span>
+                            <span class="fa fa-star"></span>
+                            <span class="fa fa-star"></span>
+                            <span class="fa fa-star"></span>
+                            <!-- /ko -->
+                            <!-- ko if: rate() == 3 -->
+                            <span class="fa fa-star checked"></span>
+                            <span class="fa fa-star checked"></span>
+                            <span class="fa fa-star checked"></span>
+                            <span class="fa fa-star"></span>
+                            <span class="fa fa-star"></span>
+                            <!-- /ko -->
+                            <!-- ko if: rate() == 4 -->
+                            <span class="fa fa-star checked"></span>
+                            <span class="fa fa-star checked"></span>
+                            <span class="fa fa-star checked"></span>
+                            <span class="fa fa-star checked"></span>
+                            <span class="fa fa-star"></span>
+                            <!-- /ko -->
+                            <!-- ko if: rate() == 5 -->
+                            <span class="fa fa-star checked"></span>
+                            <span class="fa fa-star checked"></span>
+                            <span class="fa fa-star checked"></span>
+                            <span class="fa fa-star checked"></span>
+                            <span class="fa fa-star checked"></span>
+                            <!-- /ko -->
+                            
+                        </td>
+                        <td><button data-bind="click: $root.getReviews.bind($data)">Reviews</button></td>
+
+                       
+                    </tr>
+                  
+                    <!-- ko if: id() == $root.id() -->
+                    <!--ko if: $root.length() > 0-->
+                    <tr>
+                        
+                        <td colspan="8">
+                            
+                                <ul data-bind="foreach: reviews">
+                                   
+                                    <li data-bind="text: $data">
+                                         
+                                    </li>
+
+                                </ul>
+                         
+                        </td>
+                       
+
+                    </tr>
+                    <!-- /ko -->
+                    <!-- /ko -->
+                    </tbody>
+            </table>
+        </div>
+    </div>
+    <br><br>
+   
 </div>
 
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" ></script>
+<script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.4.4/underscore-min.js"></script>
+<script type="text/javascript" src="~/Scripts/WorkingPoint/ServicePlace.js"></script>
+
+<script type="text/javascript" src="~/Scripts/WorkingPoint/Models/WorkingPoint.js"></script>
+
+
+
+<script type="text/javascript" src="~/Scripts/General.js"></script>
+
+<script type="text/javascript">
+        InitializeServicePlace(@Html.Raw(Json.Encode(Model)));
+</script>

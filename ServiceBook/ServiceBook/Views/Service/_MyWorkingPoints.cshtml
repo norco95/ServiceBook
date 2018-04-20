@@ -5,7 +5,7 @@
 <div class="row" data-bind="visible: vehicleServiceCompanyIsSelected">
 
     
-          <button  data-toggle="modal" data-target="#AddWorkingPoint" data-bind="click:openaddWorkingPointModal">AddWorkingPoint</button>
+          <button  class="btn btn-primary" data-toggle="modal" data-target="#AddWorkingPoint" data-bind="click:openaddWorkingPointModal">AddWorkingPoint</button>
     
     <!-- ko if: workingPoints().length > 0 -->
     <div class="row">
@@ -33,23 +33,23 @@
                         <td data-bind="text: street, click:$root.selectWorkingPoint.bind($data)"></td>
                         <td data-bind="text: nr, click:$root.selectWorkingPoint.bind($data)"></td>
                         <td>
-                            <button type="button" data-toggle="modal" data-target="#EmployeesModal" data-bind="click:$root.workingPointEmployees.bind($data)">
+                            <button class="btn btn-primary" type="button" data-toggle="modal" data-target="#EmployeesModal" data-bind="click:$root.workingPointEmployees.bind($data)">
                                 Employees
                             </button>
                         </td>
                         <td>
                             
-                            <button type="button" data-toggle="modal" data-target="#AddWorkingPoint" data-bind="click:$root.editWorkingPoint .bind($data) ">
+                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#AddWorkingPoint" data-bind="click:$root.editWorkingPoint .bind($data) ">
                                 Edit
                             </button>
                         </td>
                         <td>
-                            <button type="button" data-toggle="modal" data-bind="click: $root.editInterventions.bind($data)" data-target="#EditInterventions">
+                            <button type="button" class="btn btn-primary" data-toggle="modal" data-bind="click: $root.editInterventions.bind($data)" data-target="#EditInterventions">
                                 EditInterventions
                             </button>
                         </td>
                         <td>
-                            <button type="button" class="close" aria-label="Close" data-bind="click: $root.deletWorkingPoint.bind($data)">
+                            <button type="button"class="btn btn-primary close" aria-label="Close" data-bind="click: $root.deletWorkingPoint.bind($data)">
                                 <span aria-hidden="true">&times;</span>
                             </button>
                         </td>
@@ -69,7 +69,7 @@
         <div class="modal-dialog vertical-align-center">
             <div class="modal-content">
                 <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" >
+                    <button type="button" class="btn btn-primary close" data-dismiss="modal" >
                         <span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
 
                     </button>
@@ -85,13 +85,13 @@
                 </div>
                 <div class="modal-body">@Html.Partial("_AddWorkingPoint")</div>
                 <div class="modal-footer" >
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
                     <!-- ko if: !workingPointIsASelectedToEdit() -->
-                    <button type="button" class="btn btn-info btn-lg" data-bind="click: addWorkingPoint">Save</button>
+                    <button type="button" class="btn btn-primary" data-bind="click: addWorkingPoint">Save</button>
                     <!-- /ko -->
                     <!-- ko if: workingPointIsASelectedToEdit -->
                     
-                    <button type="button" class="btn btn-info btn-lg" data-bind="click: saveEditWorkingPoint">Edit</button>
+                    <button type="button" class="btn btn-primary" data-bind="click: saveEditWorkingPoint">Edit</button>
                     <!-- /ko -->
                 </div>
             </div>
@@ -113,7 +113,7 @@
                 </div>
                 <div class="modal-body">@Html.Partial("_EditInterventions")</div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
                 </div>
             </div>
         </div>
@@ -125,7 +125,7 @@
         <div class="modal-dialog vertical-align-center">
             <div class="modal-content">
                 <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal">
+                    <button type="button" class="btn btn-primary close" data-dismiss="modal">
                         <span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
 
                     </button>
@@ -134,7 +134,7 @@
                 </div>
                 <div class="modal-body">@Html.Partial("_Employees")</div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
                 </div>
             </div>
         </div>

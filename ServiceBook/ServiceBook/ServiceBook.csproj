@@ -282,7 +282,9 @@
     <Compile Include="App_Start\IdentityConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
+    <Compile Include="clsScheduleMail.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\AroundKmController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\ReviewController.cs" />
@@ -292,6 +294,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\AroundKmViewModel.cs" />
     <Compile Include="Models\Email.cs" />
     <Compile Include="Models\HomeViewModel.cs" />
     <Compile Include="Models\IdentityModels.cs" />
@@ -305,7 +308,7 @@
     <Compile Include="Models\VehicleOwnerViewModel.cs" />
     <Compile Include="Models\VehicleServiceCompanyViewModel.cs" />
     <Compile Include="Models\VehicleServiceCompanyOwnerViewModel.cs" />
-    <Compile Include="Models\WorkingPointsViewModel.cs" />
+    <Compile Include="Models\ServicePlaceViewModel.cs" />
     <Compile Include="Models\WorkingPointViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
@@ -334,6 +337,7 @@
     <Content Include="Content\images\scrollup.png" />
     <Content Include="Content\Service.css" />
     <Content Include="Content\Site.css" />
+    <Content Include="Content\WorkingPoint.css" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="ApplicationInsights.config">
@@ -342,6 +346,7 @@
     <Content Include="appsettings.json" />
     <Content Include="Scripts\ai.0.22.9-build00167.js" />
     <Content Include="Scripts\ai.0.22.9-build00167.min.js" />
+    <Content Include="Scripts\AroundKm\AroundKm.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\General.js" />
@@ -369,6 +374,8 @@
     <Content Include="Scripts\Service\Models\VehicleServiceCompany.js" />
     <Content Include="Scripts\Service\Models\VehicleServiceCompanyOwner.js" />
     <Content Include="Scripts\Service\Models\WorkingPoint.js" />
+    <Content Include="Scripts\WorkingPoint\Models\WorkingPoint.js" />
+    <Content Include="Scripts\WorkingPoint\ServicePlace.js" />
     <Content Include="Scripts\wow\wow.min.js" />
     <None Include="Scripts\_references.js" />
     <Content Include="Web.config" />
@@ -418,10 +425,12 @@
     <Content Include="Views\Review\Index.cshtml" />
     <Content Include="Views\Service\_VehicleHistory.cshtml" />
     <Content Include="Views\WorkingPoint\Index.cshtml" />
+    <Content Include="Views\AroundKm\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="JsonData\" />
+    <Folder Include="Scripts\AroundKm\Models\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

@@ -12,6 +12,11 @@ namespace ServiceBook.DAL
     {
         private ServiceBookContext ServiceBookContext = new ServiceBookContext();
       
+        public List<Service> GetListOfServies(DateTime nextVisitDate)
+        {
+            var services = ServiceBookContext.Service.Where(x => x.NextVisitDate.Year == nextVisitDate.Year && x.NextVisitDate.Month == nextVisitDate.Month && x.NextVisitDate.Day == nextVisitDate.Day);
+            return services.ToList();
+        }
 
         public double SaveRepaire(Service Service)
         {

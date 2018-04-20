@@ -366,6 +366,7 @@ namespace ServiceBook.Controllers
             wp.ID = WorkingPoint.ID;
             if (wp.Employees != null)
             {
+                data.Employees = new List<EmployeeViewModel>();
                 foreach (var employee in wp.Employees)
                 {
                     EmployeeViewModel EmployeeVM = new EmployeeViewModel();
@@ -380,6 +381,7 @@ namespace ServiceBook.Controllers
             }
             if (wp.ServiceInterventions != null)
             {
+                data.ServiceInterventions = new List<ServiceInterventionViewModel>();
                 foreach (var serviceIntervention in wp.ServiceInterventions)
                 {
                     ServiceInterventionViewModel ServiceInterventionVM = new ServiceInterventionViewModel();
@@ -394,6 +396,7 @@ namespace ServiceBook.Controllers
             }
             if (wp.Services != null)
             {
+                data.Services = new List<ServiceViewModel>();
                 foreach (var service in wp.Services)
                 {
                     ServiceViewModel ServiceVM = new ServiceViewModel();
@@ -443,8 +446,12 @@ namespace ServiceBook.Controllers
                             EmployeeVM.PhoneNumber = se.Employee.PhoneNumber;
                         }
                     }
+                    data.Services.Add(ServiceVM);
                 }
+                
             }
+          
+            data.ID = WorkingPoint.ID;
             return Json(new { success = success, messages = message, WorkingPoint = data }, JsonRequestBehavior.DenyGet);
         }
 
@@ -520,7 +527,8 @@ namespace ServiceBook.Controllers
             data.VehicleOwner.FirstName = serv.Vehicle.VehicleOwner.FirstName;
             data.VehicleOwner.PhoneNumber = serv.Vehicle.VehicleOwner.PhoneNumber;
             data.VehicleOwner.LastName = serv.Vehicle.VehicleOwner.LastName;
-            data.ID = serv.ID;
+            data.VehicleOwner.ID = serv.Vehicle.VehicleOwner.ID;
+            data.ID = serv.Vehicle.ID;
             ServiceViewModel ServiceVM = new ServiceViewModel();
             ServiceVM.Vehicle = data;
             ServiceVM.CurrentKm = serv.CurrentKm;
@@ -655,8 +663,16 @@ namespace ServiceBook.Controllers
             employee.PhoneNumber = data.PhoneNumber;
             employee.WPID = data.WPID;
             Employee Employee = EmployeeRepository.AddEmployee(employee);
-            success = true;
-            data.ID = Employee.ID;
+            if (Employee != null)
+            {
+                success = true;
+                data.ID = Employee.ID;
+            }
+         else
+            {
+                success = false;
+                message = "This Employee is exist!";
+            }
             return Json(new { success = success, messages = message, Employee = data }, JsonRequestBehavior.DenyGet);
         }
 
@@ -684,8 +700,16 @@ namespace ServiceBook.Controllers
             employee.ID = data.ID;
             employee.LastName = data.LastName;
             employee.PhoneNumber = data.PhoneNumber;
-            EmployeeRepository.EditEmployee(employee);
-            success = true;
+            var emp=EmployeeRepository.EditEmployee(employee);
+            if (emp != null)
+            {
+                success = true;
+            }
+            else
+            {
+                success = false;
+                message = "This employee is exist!";
+            }
 
             return Json(new { success = success, messages = message }, JsonRequestBehavior.DenyGet);
         }
@@ -702,8 +726,17 @@ namespace ServiceBook.Controllers
             serviceIntervention.Price = data.Price;
             serviceIntervention.WP = data.WPID;
             ServiceIntervention Intervention = ServiceInterventionRepository.AddIntervention(serviceIntervention);
-            data.ID = Intervention.ID;
-            success = true;
+            if (Intervention != null)
+            {
+                data.ID = Intervention.ID;
+                success = true;
+            }
+            else
+            {
+                success = false;
+                message = "This intervention is exist!";
+            }
+          
 
             return Json(new { success = success, messages = message, Intervention = data }, JsonRequestBehavior.DenyGet);
         }
@@ -717,8 +750,16 @@ namespace ServiceBook.Controllers
             serviceIntervention.Name = data.Name;
             serviceIntervention.ID = data.ID;
             serviceIntervention.Price = data.Price;
-            ServiceInterventionRepository.EditServiceIntervention(serviceIntervention);
-            success = true;
+            ServiceIntervention editServiceIntervention=ServiceInterventionRepository.EditServiceIntervention(serviceIntervention);
+            if(editServiceIntervention!=null)
+            {
+                success = true;
+            }
+            else
+            {
+                success = false;
+                message = "This intervention is exist!";
+            }
 
             return Json(new { success = success, messages = message }, JsonRequestBehavior.DenyGet);
         }

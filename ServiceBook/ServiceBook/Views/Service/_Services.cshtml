@@ -3,7 +3,7 @@
     Select one working point!
     </div>
 <div data-bind="visible: workingPointIsSelected">
-    <button type="button" data-toggle="modal" data-target="#inputServiceModal" data-bind="click: openAddServiceModal">Add Service</button>
+    <button  class="btn btn-primary" type="button" data-toggle="modal" data-target="#inputServiceModal" data-bind="click: openAddServiceModal">Add Service</button>
     <table class="table table-striped">
         <thead>
             <tr>
@@ -33,10 +33,10 @@
                         <span data-bind="text:price"></span>  <span class="glyphicon glyphicon-euro"></span>    
                      </div>
                 </td>
-                <td><button type="button" data-toggle="modal" data-target="#vehicleHistory" data-bind="click:$root.getVehicleHistory.bind($data)">History</button></td>
-                <td><button type="button" data-toggle="modal" data-target="#inputRepairsModal" data-bind="click:$root.addRepairs.bind($data)">Repairs</button></td>
-                <td><button type="button"  data-toggle="modal" data-target="#inputServiceModal" data-bind="click:$root.editService.bind($data)">Edit</button></td>
-                <td><button type="button" data-bind="click:$root.endedService.bind($data)">Ended</button></td>
+                <td><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#vehicleHistory" data-bind="click:$root.getVehicleHistory.bind($data)">History</button></td>
+                <td><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#inputRepairsModal" data-bind="click:$root.addRepairs.bind($data)">Repairs</button></td>
+                <td><button type="button" class="btn btn-primary"  data-toggle="modal" data-target="#inputServiceModal" data-bind="click:$root.editService.bind($data)">Edit</button></td>
+                <td><button type="button" class="btn btn-primary" data-bind="click:$root.endedService.bind($data)">Ended</button></td>
                 <td>
                     <button type="button" class="close" aria-label="Close" data-bind="click:$root.deletService.bind($data)">
                         <span aria-hidden="true">&times;</span>
@@ -73,13 +73,13 @@
                     </div>
                     <div class="modal-body">@Html.Partial("_InputService")</div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
                         <!-- ko if: !vehicleIsSelectedToEdit() -->
-                        <button type="button" class="btn btn-info btn-lg" data-bind="click: addService">Add</button>
+                        <button type="button" class="btn btn-primary" data-bind="click: addService">Add</button>
                         <!-- /ko -->
                         <!-- ko if: vehicleIsSelectedToEdit -->
 
-                        <button type="button" class="btn btn-info btn-lg" data-bind="click: saveEditService">Edit</button>
+                        <button type="button" class="btn btn-primary" data-bind="click: saveEditService">Edit</button>
                         <!-- /ko -->
                         
                     </div>
@@ -102,8 +102,8 @@
                 </div>
                 <div class="modal-body">@Html.Partial("_Repairs")</div>
                 <div class="modal-footer" >
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-info btn-lg" data-bind="click: saveRepairs">Save</button>
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" data-bind="click: saveRepairs">Save</button>
                 </div>
             </div>
         </div>

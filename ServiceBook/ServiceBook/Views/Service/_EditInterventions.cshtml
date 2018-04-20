@@ -1,4 +1,7 @@
 ﻿<div class="row">
+    <span class="error" data-bind="text: addInterventionError"></span>
+</div>
+<div class="row">
     <div class="col-lg-5">
         <table class="table table-striped">
             <thead>
@@ -17,7 +20,7 @@
                     <td data-bind="text: name"></td>
                     <td data-bind="text: price"></td>
                     <td>
-                        <button type="button" data-bind="click: $root.editIntervention.bind($data)">
+                        <button  class="btn btn-primary" type="button" data-bind="click: $root.editIntervention.bind($data)">
                             Edit
                         </button>
                     </td>
@@ -34,10 +37,10 @@
                 <td><input type="text" data-bind="value: interventionName"></td>
                 <td><input type="text" data-bind="value: interventionPrice"></td>
                 <!-- ko if: !editInterventionIsSelected() -->
-                <td><button data-bind="click: addIntervention">+</button></td>
+                <td><button data-bind="click: addIntervention" class="btn btn-primary">+</button></td>
                 <!-- /ko -->
                 <!-- ko if: editInterventionIsSelected -->
-                <td><button data-bind="click: saveEditIntervention">Edit</button></td>
+                <td><button data-bind="click: saveEditIntervention" class="btn btn-primary">Edit</button></td>
                 
                 <!-- /ko -->
                

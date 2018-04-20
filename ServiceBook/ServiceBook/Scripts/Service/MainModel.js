@@ -8,6 +8,8 @@
     this.companyNameError = ko.observable("");
     this.editCompanyError = ko.observable("");
     this.addWorkingPointError = ko.observable("");
+    this.addInterventionError = ko.observable("");
+    this.addEmployeeError = ko.observable("");
 
 
     //Company
@@ -34,8 +36,8 @@
     this.interventionId = null;
     this.interventions = ko.observableArray(null);
     this.editInterventionIsSelected = ko.observable(false);
-    this.interventionName = ko.observable(null);
-    this.interventionPrice = ko.observable(null);
+    this.interventionName = ko.observable("");
+    this.interventionPrice = ko.observable("");
 
 
     //Service
@@ -53,10 +55,10 @@
 
     //Employee 
     this.employeeId = null;
-    this.employeeFirstName = ko.observable(null);
-    this.employeeLastName = ko.observable(null);
-    this.employeeEmail = ko.observable(null);
-    this.employeePhoneNumber = ko.observable(null);
+    this.employeeFirstName = ko.observable("");
+    this.employeeLastName = ko.observable("");
+    this.employeeEmail = ko.observable("");
+    this.employeePhoneNumber = ko.observable("");
     this.employees = ko.observableArray(null);
     this.selectedWorkingPointToEmployees = null;
     this.employeAddAndEditTab = ko.observable("AddEmployee");
@@ -332,42 +334,57 @@
 
     //Interventions
     this.editInterventions = function (data) {
+        _self.addInterventionError("");
         _self.editInterventionsSelected = data;
         _self.interventions(data.serviceInterventions());
     }
     this.addIntervention = function () {
-        $.ajax({
-            type: "POST",
-            url: "/Service/AddIntervention/",
-            data: {
-                Price: _self.interventionPrice,
-                Name: _self.interventionName,
-                WPID: _self.editInterventionsSelected.id  
-            },
-            success: function (msg) {
-                if (msg.success == true) {
-                    _self.interventions.push(new ServiceIntervention(msg.Intervention));
-                }
-                _self.vehicleServiceCompanies().forEach(function (element) {
-                    if (element.id == _self.selectedCompany.id) {
-                        element.workingPoints().forEach(function (elmt) {
-                            if (elmt.id == _self.editInterventionsSelected.id) {
-                                elmt.serviceInterventions(_self.interventions());
+       
+        if (_self.interventionPrice() == "" || _self.interventionName()=="")
+        {
+            _self.addInterventionError("Invalid name or price");
+        }
+        else
+        {
+            $.ajax({
+                type: "POST",
+                url: "/Service/AddIntervention/",
+                data: {
+                    Price: _self.interventionPrice,
+                    Name: _self.interventionName,
+                    WPID: _self.editInterventionsSelected.id
+                },
+                success: function (msg) {
+                    if (msg.success == true) {
+                        _self.interventions.push(new ServiceIntervention(msg.Intervention));
+                        _self.vehicleServiceCompanies().forEach(function (element) {
+                            if (element.id == _self.selectedCompany.id) {
+                                element.workingPoints().forEach(function (elmt) {
+                                    if (elmt.id == _self.editInterventionsSelected.id) {
+                                        elmt.serviceInterventions(_self.interventions());
+                                    }
+                                });
                             }
                         });
+                        _self.workingPoints().forEach(function (element) {
+                            if (element.id == _self.editInterventionsSelected.id) {
+                                element.serviceInterventions(_self.interventions());
+                            }
+                        });
+                        _self.addInterventionError("");
+                        _self.interventionName("");
+                        _self.interventionPrice("");
                     }
-                });
-                _self.workingPoints().forEach(function (element) {
-                    if (element.id == _self.editInterventionsSelected.id)
+                    else
                     {
-                        element.serviceInterventions(_self.interventions());
+
+                        _self.addInterventionError(msg.messages);
                     }
-                });
-                _self.interventionName("");
-                _self.interventionPrice("");
-            },
-            dataType: "json"
-        });
+                },
+                dataType: "json"
+            });
+        }
+       
     }
     this.deletIntervention = function (data) {
         $.ajax({
@@ -411,47 +428,55 @@
         _self.editInterventionIsSelected(true);
     }
     this.saveEditIntervention = function (data) {
-        $.ajax({
-            type: "POST",
-            url: "/Service/EditIntervention/",
-            data: {
-                Price: _self.interventionPrice,
-                Name: _self.interventionName,
-                ID: _self.interventionId
-            },
-            success: function (msg) {
-                if (msg.success == true) {
-                    _self.interventions().forEach(function (element) {
-                        if(element.id==_self.interventionId)
-                        {
-                            element.name = _self.interventionName();
-                            element.price = _self.interventionPrice();
-                        }
-                    });
-                }
-                var interventions = _self.interventions();
-                _self.interventions([]);
-                _self.interventions(interventions);
-                _self.vehicleServiceCompanies().forEach(function (element) {
-                    if (element.id == _self.selectedCompany.id) {
-                        element.workingPoints().forEach(function (elmt) {
-                            if (elmt.id == _self.editInterventionsSelected.id) {
-                                elmt.serviceInterventions(_self.interventions());
+        if (_self.interventionPrice() == "" || _self.interventionName() == "") {
+            _self.addInterventionError("Invalid name or price");
+        }
+        else {
+            $.ajax({
+                type: "POST",
+                url: "/Service/EditIntervention/",
+                data: {
+                    Price: _self.interventionPrice,
+                    Name: _self.interventionName,
+                    ID: _self.interventionId
+                },
+                success: function (msg) {
+                    if (msg.success == true) {
+                        _self.interventions().forEach(function (element) {
+                            if (element.id == _self.interventionId) {
+                                element.name = _self.interventionName();
+                                element.price = _self.interventionPrice();
                             }
                         });
+                        var interventions = _self.interventions();
+                        _self.interventions([]);
+                        _self.interventions(interventions);
+                        _self.vehicleServiceCompanies().forEach(function (element) {
+                            if (element.id == _self.selectedCompany.id) {
+                                element.workingPoints().forEach(function (elmt) {
+                                    if (elmt.id == _self.editInterventionsSelected.id) {
+                                        elmt.serviceInterventions(_self.interventions());
+                                    }
+                                });
+                            }
+                        });
+                        _self.workingPoints().forEach(function (element) {
+                            if (element.id == _self.editInterventionsSelected.id) {
+                                element.serviceInterventions(_self.interventions());
+                            }
+                        });
+                        _self.editInterventionIsSelected(false);
+                        _self.interventionName("");
+                        _self.interventionPrice("");
                     }
-                });
-                _self.workingPoints().forEach(function (element) {
-                    if (element.id == _self.editInterventionsSelected.id) {
-                        element.serviceInterventions(_self.interventions());
+                    else
+                    {
+                        _self.addInterventionError(msg.messages);
                     }
-                });
-                _self.editInterventionIsSelected(false);
-                _self.interventionName("");
-                _self.interventionPrice("");
-            },
-            dataType: "json"
-        });
+                },
+                dataType: "json"
+            });
+        }
     }
     
     //Service
@@ -585,35 +610,49 @@
 
     //Employee
     this.addEmployee = function () {
-        $.ajax({
-            type: "POST",
-            url: "/Service/AddEmployee",
-            data: {
-                FirstName: _self.employeeFirstName,
-                LastName: _self.employeeLastName,
-                Email: _self.employeeEmail,
-                PhoneNumber: _self.employeePhoneNumber,
-                WPID: _self.selectedWorkingPointToEmployees
+        
+        if (_self.employeeFirstName() == "" || _self.employeeLastName() == "" || _self.employeeEmail() == "" || _self.employeePhoneNumber() == "") {
+            _self.addEmployeeError("Invalid input");
+        }
+        else {
+            $.ajax({
+                type: "POST",
+                url: "/Service/AddEmployee",
+                data: {
+                    FirstName: _self.employeeFirstName,
+                    LastName: _self.employeeLastName,
+                    Email: _self.employeeEmail,
+                    PhoneNumber: _self.employeePhoneNumber,
+                    WPID: _self.selectedWorkingPointToEmployees
 
-            },
-            success: function (msg) {
-                _self.employees.push(new Employee(msg.Employee));
-                _self.vehicleServiceCompanies().forEach(function (element) {
-                    if (element.id == _self.selectedCompany.id) {
-                        element.workingPoints().forEach(function (elmt) {
-                            if(elmt.id==msg.Employee.WPID)
-                           {
-                                elmt.employees(_self.employees());
+                },
+                success: function (msg) {
+                    if (msg.success == true)
+                    {
+                        _self.employees.push(new Employee(msg.Employee));
+                        _self.vehicleServiceCompanies().forEach(function (element) {
+                            if (element.id == _self.selectedCompany.id) {
+                                element.workingPoints().forEach(function (elmt) {
+                                    if (elmt.id == msg.Employee.WPID) {
+                                        elmt.employees(_self.employees());
+                                    }
+                                });
                             }
                         });
+                        $('.nav-tabs a[href="#menu6"]').tab('show');
                     }
-                });
-                $('.nav-tabs a[href="#menu6"]').tab('show');
-            },
-            dataType: "json"
-        });
+                    else
+                    {
+                        _self.addEmployeeError(msg.messages);
+                    }
+              
+                },
+                dataType: "json"
+            });
+        }
     }
     this.openAddEmployeTab = function () {
+        _self.addEmployeeError("");
         _self.employeeFirstName("");
         _self.employeeLastName("");
         _self.employeeEmail("");
@@ -661,32 +700,46 @@
         _self.employeAddAndEditTab("EditEmployee");
     }
     this.saveEditEmployee = function (data) {
-        $.ajax({
-            type: "POST",
-            url: "/Service/EditEmployee",
-            data: {
-                FirstName: _self.employeeFirstName,
-                LastName: _self.employeeLastName,
-                Email: _self.employeeEmail,
-                PhoneNumber: _self.employeePhoneNumber,
-                ID: _self.employeeId
-            },
-            success: function (msg) {
-                _self.employees().forEach(function (element) {
-                    if (element.id == _self.employeeId) {
-                        element.firstName = _self.employeeFirstName();
-                        element.lastName = _self.employeeLastName();
-                        element.phoneNumber = _self.employeePhoneNumber();
-                        element.email = _self.employeeEmail();
+        if (_self.employeeFirstName() == "" || _self.employeeLastName() == "" || _self.employeeEmail() == "" || _self.employeePhoneNumber() == "") {
+            _self.addEmployeeError("Invalid input");
+        }
+        else {
+            $.ajax({
+                type: "POST",
+                url: "/Service/EditEmployee",
+                data: {
+                    FirstName: _self.employeeFirstName,
+                    LastName: _self.employeeLastName,
+                    Email: _self.employeeEmail,
+                    PhoneNumber: _self.employeePhoneNumber,
+                    ID: _self.employeeId
+                },
+                success: function (msg) {
+                    if (msg.success == true)
+                    {
+                        _self.employees().forEach(function (element) {
+                            if (element.id == _self.employeeId) {
+                                element.firstName = _self.employeeFirstName();
+                                element.lastName = _self.employeeLastName();
+                                element.phoneNumber = _self.employeePhoneNumber();
+                                element.email = _self.employeeEmail();
+                            }
+                        });
+                        var employees = _self.employees();
+                        _self.employees([]);
+                        _self.employees(employees);
+                        $('.nav-tabs a[href="#menu6"]').tab('show');
                     }
-                });
-                var employees = _self.employees();
-                _self.employees([]);
-                _self.employees(employees);
-                $('.nav-tabs a[href="#menu6"]').tab('show');
-            },
-            dataType: "json"
-        });
+                    else
+                    {
+                        _self.addEmployeeError(msg.messages);
+                    }
+                  
+                   
+                },
+                dataType: "json"
+            });
+        }
     }
     this.addEmployeeToSelectedEmployees = function () {
         var exist = false;

@@ -17,6 +17,11 @@ namespace ServiceBook.DAL
             int n=ServiceBookContext.Vehicle.Count();
             return n;
         }
+
+        public Vehicle GetVehicleByVIN(string vin)
+        {
+            return ServiceBookContext.Vehicle.FirstOrDefault(x => x.VIN == vin);
+        }
         //public List<Vehicle> getVehiclesByWorkingPoint(int id)
         //{
         //    List<Vehicle> vehicles = new List<Vehicle>();

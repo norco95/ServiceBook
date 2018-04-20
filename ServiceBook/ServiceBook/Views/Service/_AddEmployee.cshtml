@@ -1,4 +1,8 @@
-﻿<form>
+﻿
+<form>
+    <div class="row">
+        <span class="error" data-bind="text: addEmployeeError"></span>
+    </div>
     <div class="form-group">
         <label >Employee First Name:</label>
         <input type="text" class="form-control" id="EmployeeFirstName" data-bind="value:employeeFirstName">
@@ -18,12 +22,12 @@
   
     <div class="form-group">
         <!-- ko if: !employeeIsSelectedToEdit() -->
-        <button data-bind="click: addEmployee">Add Employee</button>
+        <button  class="btn btn-primary" data-bind="click: addEmployee">Add Employee</button>
         <!-- /ko -->
 
         <!-- ko if: employeeIsSelectedToEdit -->
 
-        <button data-bind="click: saveEditEmployee">Edit Employee</button>
+        <button data-bind="click: saveEditEmployee" class="btn btn-primary">Edit Employee</button>
         <!-- /ko -->
        
        

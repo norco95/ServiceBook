@@ -12,6 +12,8 @@
     this.vscid = null;
     this.services = ko.observableArray(null);
     this.serviceCompany = null;
+    this.rate = null;
+    this.reviews = [];
     if (data != null)
     {
         this.id = data.ID;
@@ -21,6 +23,12 @@
         this.nr(data.Nr);
         this.vscid = data.VSCID;
         this.flag = data.Flag;
+        this.rate = data.Rate;
+        
+        this.reviews = _.map(data.Reviews, function (review, index) {
+            return review;
+
+        });
         var employees = _.map(data.Employees, function (employee, index) {
             return new Employee(employee);
 

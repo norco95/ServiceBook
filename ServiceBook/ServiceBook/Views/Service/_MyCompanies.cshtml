@@ -8,7 +8,7 @@
          <div class="col-lg-5">
           
                 <input type="text" data-bind="value: serviceName" placeholder="Your Company Name">
-                <button data-bind="click: addCompany">Add</button>
+                <button class="btn btn-primary" data-bind="click: addCompany">Add</button>
         </div>
 
     </div>
@@ -35,12 +35,12 @@
 
                      
                         <td>
-                            <button type="button"  data-bind="click:$root.editCompany.bind($data)">
+                            <button type="button" class="btn btn-primary" data-bind="click:$root.editCompany.bind($data)">
                                 Edit
                             </button>
                         </td>
                         <td>
-                            <button type="button" class="close" aria-label="Close" data-bind="click:$root.deletCompany.bind($data)">
+                            <button type="button" class="btn btn-primary close"  aria-label="Close" data-bind="click:$root.deletCompany.bind($data)">
                                 <span aria-hidden="true">&times;</span>
                             </button>
                         </td>
@@ -75,8 +75,8 @@
                        
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-info btn-lg" data-bind="click:  saveCompany">Save</button>
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" data-bind="click:  saveCompany">Save</button>
                 </div>
             </div>
         </div>

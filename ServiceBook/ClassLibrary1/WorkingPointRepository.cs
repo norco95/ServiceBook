@@ -59,7 +59,7 @@ namespace ServiceBook.DAL
         }
         public int GetWorkingPointCount()
         {
-            return ServiceBookContext.WorkingPoint.Count();
+            return ServiceBookContext.WorkingPoint.Where(x=>x.Flag==0).Count();
         }
     }
 }
