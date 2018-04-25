@@ -1,0 +1,20 @@
+﻿@model ServiceBook.Models.VehicleOfferViewModel
+@{
+    ViewBag.Title = "Index";
+}
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
+<script src="~/Scripts/VehicleOffer/Model/VehicleOfferModel.js"></script>
+<script src="~/Scripts/RGraph/RGraph.svg.common.core.js"></script>
+<script src="~/Scripts/RGraph/RGraph.svg.common.tooltips.js"></script>
+<script src="~/Scripts/RGraph/RGraph.svg.pie.js"></script>
+
+<div class="container" style="margin-top:10px">
+    <div style="width: 850px; height: 350px" id="chart-container"></div>
+</div>
+
+<script src="~/Scripts/VehicleOffer/VehicleOffer.js"></script>
+
+<script type="text/javascript">
+          InitializeVehicleOffer(@Html.Raw(Json.Encode(Model)));
+
+</script>

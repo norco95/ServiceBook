@@ -1,6 +1,6 @@
 ﻿@model ServiceBook.Models.AroundKmViewModel
 <br><br>
-<div class="container">
+<div class="container" >
     <div class="row">
         <input type="text" placeholder="Vehicle VIN" data-bind="value: vehicleVin">
         <button data-bind="click: getAroundKm" class="btn btn-primary">Search<span class="glyphicon glyphicon-search"></span></button>
@@ -34,9 +34,25 @@
         </table>
         </div>
     <!-- /ko -->
+
+    <table class="table table-bordered" style="margin-bottom:100px;">
+        <tbody data-bind="foreach: myVehicle">
+            <tr >
+
+                <th data-bind="text: key"></th>
+                <td data-bind="text: value"></td>
+            </tr>
+        </tbody>
+        
+    </table>
+    <br>
+    <br>
+    
+ 
 </div>
     <script type="text/javascript" src="~/Scripts/AroundKm/AroundKm.js"></script>
     <script type="text/javascript" src="~/Scripts/General.js"></script>
+   <script type="text/javascript" src="~/Scripts/AroundKm/Models/Objects.js"></script>
     <script type="text/javascript">
     InitializeAroundKm(@Html.Raw(Json.Encode(Model)));
     </script>

@@ -289,6 +289,7 @@
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\ReviewController.cs" />
     <Compile Include="Controllers\ServiceController.cs" />
+    <Compile Include="Controllers\VehicleOfferController.cs" />
     <Compile Include="Controllers\WorkingPointController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -304,6 +305,8 @@
     <Compile Include="Models\EmployeeViewModel.cs" />
     <Compile Include="Models\ServiceViewModel.cs" />
     <Compile Include="Models\ServiceInterventionViewModel.cs" />
+    <Compile Include="Models\VehicleOffer.cs" />
+    <Compile Include="Models\VehicleOfferViewModel.cs" />
     <Compile Include="Models\VehicleViewModel.cs" />
     <Compile Include="Models\VehicleOwnerViewModel.cs" />
     <Compile Include="Models\VehicleServiceCompanyViewModel.cs" />
@@ -347,6 +350,7 @@
     <Content Include="Scripts\ai.0.22.9-build00167.js" />
     <Content Include="Scripts\ai.0.22.9-build00167.min.js" />
     <Content Include="Scripts\AroundKm\AroundKm.js" />
+    <Content Include="Scripts\AroundKm\Models\Objects.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\General.js" />
@@ -363,6 +367,9 @@
     <Content Include="Scripts\owl-carousel\owl.carousel.min.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
+    <Content Include="Scripts\RGraph\RGraph.svg.common.core.js" />
+    <Content Include="Scripts\RGraph\RGraph.svg.common.tooltips.js" />
+    <Content Include="Scripts\RGraph\RGraph.svg.pie.js" />
     <Content Include="Scripts\script.js" />
     <Content Include="Scripts\Service\MainModel.js" />
     <Content Include="Scripts\Service\Models\Currency.js" />
@@ -374,6 +381,8 @@
     <Content Include="Scripts\Service\Models\VehicleServiceCompany.js" />
     <Content Include="Scripts\Service\Models\VehicleServiceCompanyOwner.js" />
     <Content Include="Scripts\Service\Models\WorkingPoint.js" />
+    <Content Include="Scripts\VehicleOffer\VehicleOffer.js" />
+    <Content Include="Scripts\VehicleOffer\Model\VehicleOfferModel.js" />
     <Content Include="Scripts\WorkingPoint\Models\WorkingPoint.js" />
     <Content Include="Scripts\WorkingPoint\ServicePlace.js" />
     <Content Include="Scripts\wow\wow.min.js" />
@@ -426,11 +435,11 @@
     <Content Include="Views\Service\_VehicleHistory.cshtml" />
     <Content Include="Views\WorkingPoint\Index.cshtml" />
     <Content Include="Views\AroundKm\Index.cshtml" />
+    <Content Include="Views\VehicleOffer\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="JsonData\" />
-    <Folder Include="Scripts\AroundKm\Models\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

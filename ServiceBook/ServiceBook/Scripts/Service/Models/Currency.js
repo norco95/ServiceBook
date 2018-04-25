@@ -6,8 +6,6 @@
     if(data!=null)
     {
         this.id = data.ID;
-        this.name = data.Name;
-      
-       
+        this.name = data.Name;  
     }
 }

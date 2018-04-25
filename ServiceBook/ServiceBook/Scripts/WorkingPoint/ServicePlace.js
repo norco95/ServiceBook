@@ -67,22 +67,7 @@
     }
 
 
-    this.testfunction=function()
-    {
-        $.ajax({
-            type: "POST",
-            url: "https://vpic.nhtsa.dot.gov/api/vehicles/DecodeVINValuesBatch/",
-            data:
-                {
-                    format: "json",
-                    data: "WAUZZZFY4J2118036",
-                },
-            success: function (msg) {
-                var s = msg;
-            },
-            dataType: "json"
-        });
-    }
+    
 }
    
 function InitializeServicePlace(data){

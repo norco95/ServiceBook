@@ -22,6 +22,11 @@ namespace ServiceBook.DAL
         {
             return ServiceBookContext.Vehicle.FirstOrDefault(x => x.VIN == vin);
         }
+
+        public List<Vehicle> getAllVehicle()
+        {
+            return ServiceBookContext.Vehicle.ToList();
+        }
         //public List<Vehicle> getVehiclesByWorkingPoint(int id)
         //{
         //    List<Vehicle> vehicles = new List<Vehicle>();
