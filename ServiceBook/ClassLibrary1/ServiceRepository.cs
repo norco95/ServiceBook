@@ -96,18 +96,21 @@ namespace ServiceBook.DAL
             if (vehicle != null)
             {
                 s.Vehicle = vehicle;
+                s.NextVisitKm = vehicle.Services.Max(x => x.CurrentKm);
+                s.CurrentKm = vehicle.Services.Max(x => x.CurrentKm);
             }
             else
             {
                 s.Vehicle = Vehicle;
+                s.NextVisitKm = 0;
+                s.CurrentKm = 0;
             }
             if (owner != null)
             {
                 s.Vehicle.VehicleOwner = owner;
             }
             s.Flag = 0;
-            s.NextVisitKm = 0;
-            s.CurrentKm = 0;
+          
             s.NextVisitDate = DateTime.Now;
             s.ServiceDate = DateTime.Now;
             WorkingPoint.Services.Add(s);

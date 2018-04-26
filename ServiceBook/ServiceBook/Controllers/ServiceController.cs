@@ -17,6 +17,7 @@ using Newtonsoft.Json.Linq;
 using System.Web.Script.Serialization;
 using System.Threading.Tasks;
 using System.IO;
+using System.Globalization;
 
 namespace ServiceBook.Controllers
 {
@@ -179,6 +180,64 @@ namespace ServiceBook.Controllers
                 return View(serviceviewmodel);
             }
             return View();
+
+        }
+
+        [HttpPost]
+
+        public ActionResult GetYearly(int id,int year)
+        {
+
+            string[] months = {"Jan","Feb","Mar","Apr","May","June","July","Aug","Sept","Oct","Nov","Dec" };
+            bool success = true;
+            string message = "";
+            WorkingPoint workingPoint= WorkingPointRepository.GetWorkingPoint(id);
+            List<StatisticModel> Statistic = new List<StatisticModel>();
+            for (int i = 0; i < 12; i++)
+            {
+                StatisticModel statisticModel = new StatisticModel();
+                statisticModel.Name = months[i];
+                statisticModel.Value = 0;
+                foreach(var s in workingPoint.Services)
+                {
+                    if(s.ServiceDate.Year==year && s.ServiceDate.Month==i+1)
+                    {
+                        statisticModel.Value += s.Price;
+                    }
+                }
+              
+                Statistic.Add(statisticModel);
+            }
+            return Json(new { success = success, messages = message,Statistic = Statistic }, JsonRequestBehavior.DenyGet);
+
+        }
+
+        [HttpPost]
+
+        public ActionResult GetMonthly(int id, int year,int month)
+        {
+            bool success = true;
+            string message = "";
+            WorkingPoint workingPoint = WorkingPointRepository.GetWorkingPoint(id);
+            List<StatisticModel> Statistic = new List<StatisticModel>();
+            int days = DateTime.DaysInMonth(year, month);
+            for (int i = 0; i <= days; i++)
+            {
+                StatisticModel statisticModel = new StatisticModel();
+                statisticModel.Name = i.ToString();
+                statisticModel.Value = 0;
+                foreach (var s in workingPoint.Services)
+                {
+                    if (s.ServiceDate.Year == year && s.ServiceDate.Month == month && s.ServiceDate.Day==i)
+                    {
+                       
+                        statisticModel.Value += s.Price;
+                    }
+                }
+
+                Statistic.Add(statisticModel);
+            }
+            return Json(new { success = success, messages = message, Statistic = Statistic }, JsonRequestBehavior.DenyGet);
 
         }
 

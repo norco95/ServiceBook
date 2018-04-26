@@ -305,6 +305,7 @@
     <Compile Include="Models\EmployeeViewModel.cs" />
     <Compile Include="Models\ServiceViewModel.cs" />
     <Compile Include="Models\ServiceInterventionViewModel.cs" />
+    <Compile Include="Models\StatisticModel.cs" />
     <Compile Include="Models\VehicleOffer.cs" />
     <Compile Include="Models\VehicleOfferViewModel.cs" />
     <Compile Include="Models\VehicleViewModel.cs" />
@@ -367,8 +368,10 @@
     <Content Include="Scripts\owl-carousel\owl.carousel.min.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
+    <Content Include="Scripts\RGraph\RGraph.svg.bar.js" />
     <Content Include="Scripts\RGraph\RGraph.svg.common.core.js" />
     <Content Include="Scripts\RGraph\RGraph.svg.common.tooltips.js" />
+    <Content Include="Scripts\RGraph\RGraph.svg.line.js" />
     <Content Include="Scripts\RGraph\RGraph.svg.pie.js" />
     <Content Include="Scripts\script.js" />
     <Content Include="Scripts\Service\MainModel.js" />
@@ -436,6 +439,7 @@
     <Content Include="Views\WorkingPoint\Index.cshtml" />
     <Content Include="Views\AroundKm\Index.cshtml" />
     <Content Include="Views\VehicleOffer\Index.cshtml" />
+    <Content Include="Views\Service\_Statement.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

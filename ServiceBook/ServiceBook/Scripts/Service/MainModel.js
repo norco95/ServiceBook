@@ -2,6 +2,14 @@
 {   
     var _self = this;
 
+    this.years = ko.observableArray(null);
+    this.selectedYear = ko.observable((new Date()).getFullYear());
+    var monthNames = ["January", "February", "March", "April", "May", "June","July", "August", "September", "October", "November", "December"];
+    this.months = ko.observableArray(monthNames);
+    this.selectedMonth = ko.observable(null);
+    this.t=null;
+    
+
     //// ATRIBUTES \\\\
 
     //Error
@@ -10,6 +18,8 @@
     this.addWorkingPointError = ko.observable("");
     this.addInterventionError = ko.observable("");
     this.addEmployeeError = ko.observable("");
+    this.saveRepairError = ko.observable("");
+    this.inputVehicleError = ko.observable("");
 
 
     //Company
@@ -51,6 +61,7 @@
     this.vehicleOwnerPhoneNumber = ko.observable(null);
     this.vehicleIsSelectedToEdit = ko.observable(false);
     this.vehicleIdToEdit = null;
+    this.selectedVehicleCurrentKm = 0;
 
 
     //Employee 
@@ -95,6 +106,11 @@
             });
             _self.vehicleServiceCompanies(vehicleServiceCompanies);
         }
+
+        for (var i = 2017; i <= (new Date()).getFullYear() ;i++)
+        _self.years.push(i);
+        
+        
     }
  
 
@@ -290,38 +306,58 @@
         _self.newWorkingPoint.street(data.street());
         _self.newWorkingPoint.id=data.id;
         _self.workingPointIsASelectedToEdit(true);
+        _self.addWorkingPointError("");
     }
-    this.saveEditWorkingPoint = function () {    
-        $.ajax({
-            type: "POST",
-            url: "/Service/EditWorkingPoint/",
-            data: {
-                ID: _self.newWorkingPoint.id,
-                Street: _self.newWorkingPoint.street,
-                City: _self.newWorkingPoint.city,
-                Country: _self.newWorkingPoint.country,
-                Nr: _self.newWorkingPoint.nr
-            },
-            success: function (msg) {             
-                var workingPoint = new WorkingPoint(msg.WorkingPoint)
-                _self.workingPoints().forEach(function (element) {
-                    if (element.id == _self.newWorkingPoint.id)
-                    {
-                        element.street(_self.newWorkingPoint.street());
-                        element.country(_self.newWorkingPoint.country());
-                        element.city(_self.newWorkingPoint.city());
-                        element.nr(_self.newWorkingPoint.nr());
-                    }
-                });
-                _self.vehicleServiceCompanies().forEach(function (element) {
-                    if (element.id == _self.selectedCompany.id) {
-                        element.workingPoints(_self.workingPoints());
-                    }
-                });
-                $("#AddWorkingPoint").modal("hide");
-            },
-            dataType: "json"
-        });
+    this.saveEditWorkingPoint = function () {
+        _self.addWorkingPointError("");
+        var errors = 0;
+        if (_self.newWorkingPoint.country() == "") {
+            errors++;
+            _self.addWorkingPointError(_self.addWorkingPointError() + "*Required to enter the country field" + " <br /> ");
+        }
+        if (_self.newWorkingPoint.city() == "") {
+            errors++;
+            _self.addWorkingPointError(_self.addWorkingPointError() + "*Required to enter the city field" + " <br /> ");
+        }
+        if (_self.newWorkingPoint.street() == "") {
+            errors++;
+            _self.addWorkingPointError(_self.addWorkingPointError() + "*Required to enter the street field" + " <br /> ");
+        }
+        if (_self.newWorkingPoint.nr() == "") {
+            errors++;
+            _self.addWorkingPointError(_self.addWorkingPointError() + "*Required to enter the nr field" + " <br /> ");
+        }
+        if (errors == 0) {
+            $.ajax({
+                type: "POST",
+                url: "/Service/EditWorkingPoint/",
+                data: {
+                    ID: _self.newWorkingPoint.id,
+                    Street: _self.newWorkingPoint.street,
+                    City: _self.newWorkingPoint.city,
+                    Country: _self.newWorkingPoint.country,
+                    Nr: _self.newWorkingPoint.nr
+                },
+                success: function (msg) {
+                    var workingPoint = new WorkingPoint(msg.WorkingPoint)
+                    _self.workingPoints().forEach(function (element) {
+                        if (element.id == _self.newWorkingPoint.id) {
+                            element.street(_self.newWorkingPoint.street());
+                            element.country(_self.newWorkingPoint.country());
+                            element.city(_self.newWorkingPoint.city());
+                            element.nr(_self.newWorkingPoint.nr());
+                        }
+                    });
+                    _self.vehicleServiceCompanies().forEach(function (element) {
+                        if (element.id == _self.selectedCompany.id) {
+                            element.workingPoints(_self.workingPoints());
+                        }
+                    });
+                    $("#AddWorkingPoint").modal("hide");
+                },
+                dataType: "json"
+            });
+        }
     }
     this.workingPointEmployees = function(data)
     {
@@ -482,6 +518,7 @@
     //Service
     this.openAddServiceModal=function()
     {
+        _self.inputVehicleError("");
         _self.VIN("");
         _self.identifier(""),
         _self.vehicleOwnerFirstName("");
@@ -492,10 +529,19 @@
     }
     this.addService = function ()
     {
-        $.ajax({
-            type: "POST",
-            url: "/Service/AddService/",
-            data: {
+        var errors = 0;
+        _self.inputVehicleError("");
+
+        if (_self.VIN() == "" || _self.identifier()=="" ||_self.vehicleOwnerFirstName()=="" ||_self.vehicleOwnerLastName()=="" || _self.vehicleOwnerPhoneNumber()=="" || _self.vehicleOwnerEmail()=="")
+        {
+            errors++;
+            _self.inputVehicleError("All input is required");
+        }
+        if (errors == 0) {
+            $.ajax({
+                type: "POST",
+                url: "/Service/AddService/",
+                data: {
                     VIN: _self.VIN,
                     Identifier: _self.identifier,
                     VehicleOwner: {
@@ -504,16 +550,16 @@
                         Email: _self.vehicleOwnerEmail,
                         PhoneNumber: _self.vehicleOwnerPhoneNumber,
                     }
-            },
-            success: function (msg) {
-                if(msg.success==true)
-                {
-                    _self.vehicles.push(new Service(msg.Service));
-                    $("#inputServiceModal").modal("hide");
-                }
-            },
-            dataType: "json"
-        });
+                },
+                success: function (msg) {
+                    if (msg.success == true) {
+                        _self.vehicles.push(new Service(msg.Service));
+                        $("#inputServiceModal").modal("hide");
+                    }
+                },
+                dataType: "json"
+            });
+        }
     }
     this.deletService = function (data)
     {
@@ -569,42 +615,54 @@
         _self.vehicleOwnerEmail(data.vehicle.vehicleOwner.email);
         _self.vehicleOwnerPhoneNumber(data.vehicle.vehicleOwner.phoneNumber);
         _self.vehicleIsSelectedToEdit(true);
+        _self.inputVehicleError("");
+
     }
     this.saveEditService=function(data)
     {
-        $.ajax({
-            type: "POST",
-            url: "/Service/EditService/",
-            data: {
-                ID: _self.vehicleIdToEdit,
-                Vehicle: {
-                    VIN: _self.VIN,
-                    Identifier: _self.identifier,
-                    VehicleOwner: {
-                        FirstName: _self.vehicleOwnerFirstName,
-                        LastName: _self.vehicleOwnerLastName,
-                        Email: _self.vehicleOwnerEmail,
-                        PhoneNumber: _self.vehicleOwnerPhoneNumber
-                    }
-                }
-            },
-            success: function (msg) {
-                if (msg.success == true) {
-                    _self.vehicles().forEach(function (element) {
-                        if (element.id == _self.vehicleIdToEdit) {
-                            element.vehicle.vin = _self.VIN();
-                            element.vehicle.identifier = _self.identifier();
-                            element.vehicle.vehicleOwner.firstName = _self.vehicleOwnerFirstName();
-                            element.vehicle.vehicleOwner.lastName = _self.vehicleOwnerLastName();
-                            element.vehicle.vehicleOwner.email = _self.vehicleOwnerEmail();
-                            element.vehicle.vehicleOwner.phoneNumber = _self.vehicleOwnerPhoneNumber();
+        var errors = 0;
+        _self.inputVehicleError("");
+
+        if (_self.VIN() == "" || _self.identifier()=="" ||_self.vehicleOwnerFirstName()=="" ||_self.vehicleOwnerLastName()=="" || _self.vehicleOwnerPhoneNumber()=="" || _self.vehicleOwnerEmail()=="")
+        {
+            errors++;
+            _self.inputVehicleError("All input is required");
+        }
+        if (errors == 0) {
+            $.ajax({
+                type: "POST",
+                url: "/Service/EditService/",
+                data: {
+                    ID: _self.vehicleIdToEdit,
+                    Vehicle: {
+                        VIN: _self.VIN,
+                        Identifier: _self.identifier,
+                        VehicleOwner: {
+                            FirstName: _self.vehicleOwnerFirstName,
+                            LastName: _self.vehicleOwnerLastName,
+                            Email: _self.vehicleOwnerEmail,
+                            PhoneNumber: _self.vehicleOwnerPhoneNumber
                         }
-                    });
-                    $("#inputServiceModal").modal("hide");
-                }
-            },
-            dataType: "json"
-        });
+                    }
+                },
+                success: function (msg) {
+                    if (msg.success == true) {
+                        _self.vehicles().forEach(function (element) {
+                            if (element.id == _self.vehicleIdToEdit) {
+                                element.vehicle.vin = _self.VIN();
+                                element.vehicle.identifier = _self.identifier();
+                                element.vehicle.vehicleOwner.firstName = _self.vehicleOwnerFirstName();
+                                element.vehicle.vehicleOwner.lastName = _self.vehicleOwnerLastName();
+                                element.vehicle.vehicleOwner.email = _self.vehicleOwnerEmail();
+                                element.vehicle.vehicleOwner.phoneNumber = _self.vehicleOwnerPhoneNumber();
+                            }
+                        });
+                        $("#inputServiceModal").modal("hide");
+                    }
+                },
+                dataType: "json"
+            });
+        }
     }
 
 
@@ -627,6 +685,7 @@
 
                 },
                 success: function (msg) {
+                    _self.addEmployeeError("");
                     if (msg.success == true)
                     {
                         _self.employees.push(new Employee(msg.Employee));
@@ -700,6 +759,7 @@
         _self.employeAddAndEditTab("EditEmployee");
     }
     this.saveEditEmployee = function (data) {
+        _self.addEmployeeError("");
         if (_self.employeeFirstName() == "" || _self.employeeLastName() == "" || _self.employeeEmail() == "" || _self.employeePhoneNumber() == "") {
             _self.addEmployeeError("Invalid input");
         }
@@ -768,6 +828,7 @@
         _self.selectedVehicle.nextVisitKm(data.nextVisitKm());
         _self.selectedVehicle.currentKm(data.currentKm());
         _self.selectedVehicle.nextVisitDate(data.nextVisitDate());
+        _self.selectedVehicleCurrentKm = data.currentKm();
     }
     this.addSelectedInterventionToRepairs = function ()
     {
@@ -783,33 +844,52 @@
         }
     }
     this.saveRepairs = function () {
-        $.ajax({
-            type: "POST",
-            url: "/Service/SaveRepairs/",
-            data: {
-                ID: _self.selectedVehicle.id,
-                ServiceInterventions: _self.selectedInterventions(),
-                CurrentKm: _self.selectedVehicle.currentKm,
-                NextVisitKm: _self.selectedVehicle.nextVisitKm,
-                NextVisitDate: _self.selectedVehicle.nextVisitDate(),
-                Employees: _self.selectedEmployees()  
-            },
-            success: function (msg) {
-                _self.vehicles().forEach(function (element) {
-                    if(element.id==_self.selectedVehicle.id)
-                    {
-                        element.price(msg.Price);
-                        element.nextVisitDate(_self.selectedVehicle.nextVisitDate());
-                        element.nextVisitKm(_self.selectedVehicle.nextVisitKm());
-                        element.currentKm(_self.selectedVehicle.currentKm());
-                        element.employees(_self.selectedEmployees());
-                        element.serviceInterventions(_self.selectedInterventions());
-                    }
-                });
-                $("#inputRepairsModal").modal("hide");
-            },
-            dataType: "json"
-        });
+        _self.saveRepairError("");
+        var errors = 0;
+        if (_self.selectedVehicleCurrentKm > _self.selectedVehicle.currentKm())
+        {
+            _self.saveRepairError(_self.saveRepairError() + "Current Km is smaller them last service Km <br>");
+            errors++;
+        }
+        if (_self.selectedVehicle.currentKm() > _self.selectedVehicle.nextVisitKm())
+        {
+            _self.saveRepairError(_self.saveRepairError() + "Current Km is smaller them next visit Km <br>");
+            errors++;
+        }
+        var today = new Date();
+        if( today !== _self.selectedVehicle.nextVisitDate())
+        {
+            _self.saveRepairError(_self.saveRepairError() + "The next visit date is smaller them today");
+            errors++;
+        }
+        if (errors == 0) {
+            $.ajax({
+                type: "POST",
+                url: "/Service/SaveRepairs/",
+                data: {
+                    ID: _self.selectedVehicle.id,
+                    ServiceInterventions: _self.selectedInterventions(),
+                    CurrentKm: _self.selectedVehicle.currentKm,
+                    NextVisitKm: _self.selectedVehicle.nextVisitKm,
+                    NextVisitDate: _self.selectedVehicle.nextVisitDate(),
+                    Employees: _self.selectedEmployees()
+                },
+                success: function (msg) {
+                    _self.vehicles().forEach(function (element) {
+                        if (element.id == _self.selectedVehicle.id) {
+                            element.price(msg.Price);
+                            element.nextVisitDate(_self.selectedVehicle.nextVisitDate());
+                            element.nextVisitKm(_self.selectedVehicle.nextVisitKm());
+                            element.currentKm(_self.selectedVehicle.currentKm());
+                            element.employees(_self.selectedEmployees());
+                            element.serviceInterventions(_self.selectedInterventions());
+                        }
+                    });
+                    $("#inputRepairsModal").modal("hide");
+                },
+                dataType: "json"
+            });
+        }
     }
     this.deletFromSelectedInterventions = function (data) {
             _self.selectedInterventions.remove(data);          
@@ -900,6 +980,132 @@
             _self.vehicleHistoryIndex--;
             _self.setVehicleHistory();
         }
+    }
+
+    this.getYearGraphy=function()
+    {
+       
+
+        $.ajax({
+            type: "POST",
+            url: "/Service/GetYearly/",
+            data: {
+                id:_self.selectedWorkingPoint.id,
+                year:_self.selectedYear()
+
+            },
+            success: function (msg) {
+                if (msg.success == true) {
+                    var labels = [];
+                    var values = [];
+                    msg.Statistic.forEach(function (element) {
+                        labels.push(element.Name);
+                        values.push(element.Value);
+                    });
+                    var title = _self.selectedYear()+" WorkingPoint"
+                    _self.loadGraph(values, labels,title);
+                }
+            },
+            dataType: "json"
+        });
+    }
+
+    this.getMonthGraphy = function () {
+       
+        var i = 0;
+        var selectedMonth = 0;
+        _self.months().forEach(function (element)
+        {
+            i++;
+            if (element == _self.selectedMonth()) {
+                selectedMonth = i;
+            }
+        });
+     
+        $.ajax({
+            type: "POST",
+            url: "/Service/GetMonthly/",
+            data: {
+                id: _self.selectedWorkingPoint.id,
+                year: _self.selectedYear(),
+                month: selectedMonth 
+
+            },
+            success: function (msg) {
+                if (msg.success == true) {
+                    var labels = [];
+                    var values = [];
+                    var j = 0;
+                    msg.Statistic.forEach(function (element) {
+                      
+                        if (j == 3) {
+                            labels.push(element.Name);
+                            j = 0;
+                        }
+                        j++;
+                        
+                         values.push(element.Value);
+                        
+                       
+                    });
+                    var title = _self.selectedYear() +" "+ _self.selectedMonth() + " WorkingPoint"
+                    _self.loadGraph1(values, labels, title);
+                }
+            },
+            dataType: "json"
+        });
+    }
+
+    this.loadGraph = function (data,labels,title)
+    {
+        $('#chart-container').remove();
+        $('#graphContent').append('<div style="width: 750px; height: 300px" id="chart-container"></div>');
+
+        _self.t=new RGraph.SVG.Bar({
+            id: 'chart-container',
+            data: data,
+            options: {
+                hmargin: 20,
+                xaxisLabels: labels,
+                tooltips: labels,
+                title: title,
+                colors: ['Gradient(#f00:#fcc)'],
+                yaxis: false,
+                yaxisUnitsPost: 'E',
+                backgroundGridVlines: false,
+                backgroundGridBorder: false
+            }
+        }).grow();
+    }
+
+    this.loadGraph1 = function (data, labels, title)
+    {
+        $('#chart-container').remove();
+        $('#graphContent').append('<div style="width: 750px; height: 300px" id="chart-container"></div>');
+        document.getElementById('chart-container').innerHTML = " ";
+        _self.t=new RGraph.SVG.Line({
+            id: 'chart-container',
+            data: data,
+            options: {
+                linewidth: 2,
+                xaxisLabels: labels,
+                gutterLeft: 65,
+                yaxisUnitsPost: 'E',
+                
+                gutterRight: 55,
+                filled: true,
+                filledColors: ['#C2D1F0'],
+                filledClick: function (e, obj) {
+                    alert('The fill was clicked!');
+                },
+                colors: ['#3366CB'],
+                yaxis: false,
+                xaxis: false,
+                backgroundGridVlines: false,
+                backgroundGridBorder: false,
+                textSize: 16
+            }
+        }).trace()
     }
 }
 function InitializeMainModel(data) {

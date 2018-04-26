@@ -1,6 +1,11 @@
 ﻿<div class="container">
-
+   <div class="row">
+       <span class="error" data-bind="html: saveRepairError"></span>
+   </div>
     <div class="row">
+        
+           
+      
         <div class="col-lg-6">
             <table class="table table-striped">
                 <thead>
@@ -96,6 +101,7 @@
 
     
     <div class="form-group row">
+       
         <div class="col-sm-3" >Curent km:</div>
         <div class="col-sm-7">
 
@@ -120,7 +126,7 @@
             <input id="date" type="date" class="form-control" data-bind="value: selectedVehicle.nextVisitDate">
         </div>
     </div>
-    
+   
 
 </div>
 

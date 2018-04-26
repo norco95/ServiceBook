@@ -3,11 +3,9 @@
     this.vehicleOffers = [];
     this.i = 0;
     this.sum = 0;
-    this.sortNumber=function(a, b) {
-        return a.avgRepairCost - bavgRepairCost;
-    }
     this.initialize = function (data) {
      
+      
         if (data != null && data.VehicleOffers != null) {
             data.VehicleOffers.forEach(function (element) {
            

@@ -11,6 +11,7 @@
         <li><a href="#menu1" data-toggle="tab">Working Points</a></li>
         <li><a href="#menu2" data-toggle="tab">Vehicles</a></li>
         <li><a href="#menu3" data-toggle="tab">Vehicle History</a></li>
+        <li><a href="#menu4" data-toggle="tab">Statement</a></li>
     </ul>
     <div id="my-tab-content" class="tab-content">
         <div class="tab-pane active" id="menu">
@@ -30,6 +31,10 @@
             <br><br>
             @Html.Partial("_VehicleHistory")
         </div>
+        <div class="tab-pane" id="menu4">
+            <br><br>
+            @Html.Partial("_Statement")
+        </div>
     </div>
 </div>
 
@@ -45,6 +50,19 @@
 
 
    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+<script src="~/Scripts/RGraph/RGraph.svg.common.core.js"></script>
+<script src="~/Scripts/RGraph/RGraph.svg.common.tooltips.js"></script>
+<script src="~/Scripts/RGraph/RGraph.svg.bar.js"></script>
+<script src="~/Scripts/RGraph/RGraph.svg.line.js"></script>
+
+
+
+
+
+
+
 
  
 <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" ></script>

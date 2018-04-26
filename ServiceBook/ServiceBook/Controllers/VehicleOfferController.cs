@@ -21,35 +21,43 @@ namespace ServiceBook.Controllers
             VehicleOfferVM.VehicleOffers = new List<VehicleOffer>();
             foreach (var vehicle in vehicles)
             {
-                VehicleOffer vehicleOffer = new VehicleOffer();
-                vehicleOffer.Vin = vehicle.VIN;
-                double sum = 0;
-                var i = 0;
-                var firstkm = 0;
-                var lastkm = 0;
-                foreach (var service in vehicle.Services)
+                var count=vehicle.Services.Count(x => x.Flag == 1);
+                if(count>=2)
                 {
-                  
-                    if (i==0)
+                    VehicleOffer vehicleOffer = new VehicleOffer();
+                    vehicleOffer.Vin = vehicle.VIN;
+                    double sum = 0;
+                    var i = 0;
+                    var firstkm = 0;
+                    var lastkm = 0;
+                    foreach (var service in vehicle.Services)
                     {
-                        firstkm = service.CurrentKm;
+
+                        if (service.Flag == 1)
+                        { 
+                            if (i == 0)
+                            {
+                                firstkm = service.CurrentKm;
+                            }
+                        if (i == vehicle.Services.Count() - 1)
+                        {
+                            lastkm = service.CurrentKm;
+                        }
+                        i++;
+                        foreach (var intervention in service.SSI)
+                        {
+                            sum += intervention.ServiceIntervention.Price;
+                        }
                     }
-                    if(i==vehicle.Services.Count()-1)
+                    }
+                    if (sum != 0)
                     {
-                        lastkm = service.CurrentKm;
+                        vehicleOffer.AvgRepairCost = (sum / (lastkm - firstkm));
                     }
-                    i++;
-                    foreach(var intervention in service.SSI)
-                    {
-                        sum += intervention.ServiceIntervention.Price;
-                    }
+                    VehicleOfferVM.VehicleOffers.Add(vehicleOffer);
                 }
-                if (sum != 0)
-                {
-                    vehicleOffer.AvgRepairCost=( sum / (lastkm - firstkm) );
-                }
-                VehicleOfferVM.VehicleOffers.Add(vehicleOffer);
             }
+                
 
 
             

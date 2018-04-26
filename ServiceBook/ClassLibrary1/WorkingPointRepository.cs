@@ -57,6 +57,11 @@ namespace ServiceBook.DAL
             workingPoint.Country = WorkingPoint.Country;
             ServiceBookContext.SaveChanges();
         }
+
+        public WorkingPoint GetWorkingPoint(int id)
+        {
+            return ServiceBookContext.WorkingPoint.FirstOrDefault(x=>x.ID==id);
+        }
         public int GetWorkingPointCount()
         {
             return ServiceBookContext.WorkingPoint.Where(x=>x.Flag==0).Count();

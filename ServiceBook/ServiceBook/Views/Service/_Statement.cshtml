@@ -1,0 +1,31 @@
+﻿<div class="container">
+    <div class="row">
+        <div class="col-sm-3">
+        <div class="row"><h4>Working Point</h4>
+        </div>
+            <div class="row">
+                <select data-bind="options: years,
+                       value : selectedYear,
+                       optionsCaption: 'Choose...'"></select>
+                <button data-bind="click: getYearGraphy">Yearly</button>
+            </div>
+            <div class="row">
+            <select data-bind="options: months,
+                       value : selectedMonth,
+                       optionsCaption: 'Choose...'"></select>
+
+            <button data-bind="click: getMonthGraphy">Monthly</button>
+                </div>
+        </div>
+        </div>
+<div class="row">
+
+    <div style="padding: 15px" id="graphContent">
+            <div style="width: 750px; height: 300px" id="chart-container"></div>
+    </div>
+    
+</div>
+</div>
+
+   
+
