@@ -20,6 +20,7 @@
     this.addEmployeeError = ko.observable("");
     this.saveRepairError = ko.observable("");
     this.inputVehicleError = ko.observable("");
+    this.graphyError = ko.observable("");
 
 
     //Company
@@ -100,6 +101,7 @@
 
     //Initialize
     this.initialize = function (data) {
+        _self.selectedMonth("January");
         if (data.VehicleServiceCompanies != null) {
             var vehicleServiceCompanies = _.map(data.VehicleServiceCompanies, function (vehicleServiceCompanies, index) {
                 return new VehicleServiceCompany(vehicleServiceCompanies);
@@ -982,34 +984,205 @@
         }
     }
 
+    //Graphy
     this.getYearGraphy=function()
     {
-       
+        _self.graphyError("");
+        var errors=0;
+        if (_self.selectedWorkingPoint == null)
+        {
+            errors++;
+            _self.graphyError("Select workingpoint!");
+        }
+        if (errors == 0)
+        {
+            $.ajax({
+                type: "POST",
+                url: "/Service/GetYearly/",
+                data: {
+                    id: _self.selectedWorkingPoint.id,
+                    year: _self.selectedYear()
 
-        $.ajax({
-            type: "POST",
-            url: "/Service/GetYearly/",
-            data: {
-                id:_self.selectedWorkingPoint.id,
-                year:_self.selectedYear()
-
-            },
-            success: function (msg) {
-                if (msg.success == true) {
-                    var labels = [];
-                    var values = [];
-                    msg.Statistic.forEach(function (element) {
-                        labels.push(element.Name);
-                        values.push(element.Value);
-                    });
-                    var title = _self.selectedYear()+" WorkingPoint"
-                    _self.loadGraph(values, labels,title);
-                }
-            },
-            dataType: "json"
-        });
+                },
+                success: function (msg) {
+                    if (msg.success == true) {
+                        var labels = [];
+                        var values = [];
+                        msg.Statistic.forEach(function (element) {
+                            labels.push(element.Name);
+                            values.push(element.Value);
+                        });
+                        var title = _self.selectedYear() + " WorkingPoint"
+                        _self.loadGraph(values, labels, title);
+                    }
+                },
+                dataType: "json"
+            });
+        }
+        
     }
+    this.getEmployeeYearGraphy = function () {
 
+        _self.graphyError("");
+        var errors=0;
+        if (_self.selectedWorkingPoint == null)
+        {
+            errors++;
+            _self.graphyError("Select workingpoint!");
+        }
+        if (errors == 0) {
+            $.ajax({
+                type: "POST",
+                url: "/Service/GetEmployeeYearly/",
+                data: {
+                    id: _self.selectedWorkingPoint.id,
+                    year: _self.selectedYear()
+
+                },
+                success: function (msg) {
+                    if (msg.success == true) {
+                        var labels = [];
+                        var values = [];
+                        msg.Statistic.forEach(function (element) {
+                            labels.push(element.Name);
+                            values.push(element.Value);
+                        });
+                        var title = _self.selectedYear() + " Employee";
+                        _self.loadGraph(values, labels, title);
+                    }
+                },
+                dataType: "json"
+            });
+        }
+    }
+    this.getEmployeeMonthGraphy = function () {
+        var i = 0;
+        var selectedMonth = 0;
+        _self.months().forEach(function (element) {
+            i++;
+            if (element == _self.selectedMonth()) {
+                selectedMonth = i;
+            }
+        });
+        _self.graphyError("");
+        var errors=0;
+        if (_self.selectedWorkingPoint == null)
+        {
+            errors++;
+            _self.graphyError("Select workingpoint!");
+        }
+        if (errors == 0) {
+            $.ajax({
+                type: "POST",
+                url: "/Service/GetEmployeeMonthly/",
+                data: {
+                    id: _self.selectedWorkingPoint.id,
+                    year: _self.selectedYear(),
+                    month: selectedMonth
+
+                },
+                success: function (msg) {
+                    if (msg.success == true) {
+                        var labels = [];
+                        var values = [];
+                        msg.Statistic.forEach(function (element) {
+                            labels.push(element.Name);
+                            values.push(element.Value);
+                        });
+                        var title = _self.selectedYear() + "." + _self.selectedMonth() + " Employee"
+                        _self.loadGraph(values, labels, title);
+                    }
+                },
+                dataType: "json"
+            });
+        }
+    }
+    this.getCompanyYearGraphy=function()
+    {
+        _self.graphyError("");
+        var errors=0;
+        if (_self.selectedCompany == null)
+        {
+            errors++;
+            _self.graphyError("Select Company!");
+        }
+        if (errors == 0) {
+            $.ajax({
+                type: "POST",
+                url: "/Service/GetCompanyYearly/",
+                data: {
+                    id: _self.selectedCompany.id,
+                    year: _self.selectedYear()
+
+                },
+                success: function (msg) {
+                    if (msg.success == true) {
+                        var labels = [];
+                        var values = [];
+                        msg.Statistic.forEach(function (element) {
+                            labels.push(element.Name);
+                            values.push(element.Value);
+                        });
+                        var title = _self.selectedYear() + " Company"
+                        _self.loadGraph(values, labels, title);
+                    }
+                },
+                dataType: "json"
+            });
+        }
+    }
+    this.getCompanyMonthGraphy = function () {
+
+        var i = 0;
+        var selectedMonth = 0;
+        _self.months().forEach(function (element) {
+            i++;
+            if (element == _self.selectedMonth()) {
+                selectedMonth = i;
+            }
+        });
+        _self.graphyError("");
+        var errors=0;
+        if (_self.selectedCompany == null)
+        {
+            errors++;
+            _self.graphyError("Select Company!");
+        }
+        if (errors == 0) {
+            $.ajax({
+                type: "POST",
+                url: "/Service/GetCompanyMonthly/",
+                data: {
+                    id: _self.selectedCompany.id,
+                    year: _self.selectedYear(),
+                    month: selectedMonth
+
+                },
+                success: function (msg) {
+                    if (msg.success == true) {
+                        var labels = [];
+                        var values = [];
+                        var j = 0;
+                        msg.Statistic.forEach(function (element) {
+
+                            if (j == 3) {
+                                labels.push(element.Name);
+                                j = 0;
+                            }
+                            j++;
+
+                            values.push(element.Value);
+
+
+                        });
+                        var title = _self.selectedYear() + " " + _self.selectedMonth() + " Company"
+                        _self.loadGraph1(values, labels, title);
+                    }
+                },
+                dataType: "json"
+            });
+        }
+    }
     this.getMonthGraphy = function () {
        
         var i = 0;
@@ -1021,41 +1194,48 @@
                 selectedMonth = i;
             }
         });
-     
-        $.ajax({
-            type: "POST",
-            url: "/Service/GetMonthly/",
-            data: {
-                id: _self.selectedWorkingPoint.id,
-                year: _self.selectedYear(),
-                month: selectedMonth 
+        _self.graphyError("");
+        var errors=0;
+        if (_self.selectedWorkingPoint == null)
+        {
+            errors++;
+            _self.graphyError("Select workingpoint!");
+        }
+        if (errors == 0) {
+            $.ajax({
+                type: "POST",
+                url: "/Service/GetMonthly/",
+                data: {
+                    id: _self.selectedWorkingPoint.id,
+                    year: _self.selectedYear(),
+                    month: selectedMonth
 
-            },
-            success: function (msg) {
-                if (msg.success == true) {
-                    var labels = [];
-                    var values = [];
-                    var j = 0;
-                    msg.Statistic.forEach(function (element) {
-                      
-                        if (j == 3) {
-                            labels.push(element.Name);
-                            j = 0;
-                        }
-                        j++;
-                        
-                         values.push(element.Value);
-                        
-                       
-                    });
-                    var title = _self.selectedYear() +" "+ _self.selectedMonth() + " WorkingPoint"
-                    _self.loadGraph1(values, labels, title);
-                }
-            },
-            dataType: "json"
-        });
+                },
+                success: function (msg) {
+                    if (msg.success == true) {
+                        var labels = [];
+                        var values = [];
+                        var j = 0;
+                        msg.Statistic.forEach(function (element) {
+
+                            if (j == 3) {
+                                labels.push(element.Name);
+                                j = 0;
+                            }
+                            j++;
+
+                            values.push(element.Value);
+
+
+                        });
+                        var title = _self.selectedYear() + " " + _self.selectedMonth() + " WorkingPoint"
+                        _self.loadGraph1(values, labels, title);
+                    }
+                },
+                dataType: "json"
+            });
+        }
     }
-
     this.loadGraph = function (data,labels,title)
     {
         $('#chart-container').remove();
@@ -1073,11 +1253,11 @@
                 yaxis: false,
                 yaxisUnitsPost: 'E',
                 backgroundGridVlines: false,
-                backgroundGridBorder: false
+                backgroundGridBorder: false,
+                textSize: 10
             }
         }).grow();
     }
-
     this.loadGraph1 = function (data, labels, title)
     {
         $('#chart-container').remove();
@@ -1091,8 +1271,8 @@
                 xaxisLabels: labels,
                 gutterLeft: 65,
                 yaxisUnitsPost: 'E',
-                
                 gutterRight: 55,
+                title: title,
                 filled: true,
                 filledColors: ['#C2D1F0'],
                 filledClick: function (e, obj) {
@@ -1103,7 +1283,7 @@
                 xaxis: false,
                 backgroundGridVlines: false,
                 backgroundGridBorder: false,
-                textSize: 16
+                textSize: 10
             }
         }).trace()
     }

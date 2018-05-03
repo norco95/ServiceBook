@@ -1,5 +1,8 @@
 ﻿<div class="container">
     <div class="row">
+        <span class="error" data-bind="html: graphyError"></span>
+    </div>
+    <div class="row">
         <div class="col-sm-3">
         <div class="row"><h4>Working Point</h4>
         </div>
@@ -7,21 +10,57 @@
                 <select data-bind="options: years,
                        value : selectedYear,
                        optionsCaption: 'Choose...'"></select>
-                <button data-bind="click: getYearGraphy">Yearly</button>
+                <button class="btn btn-primary"  data-bind="click: getYearGraphy">Yearly</button>
             </div>
             <div class="row">
             <select data-bind="options: months,
                        value : selectedMonth,
                        optionsCaption: 'Choose...'"></select>
 
-            <button data-bind="click: getMonthGraphy">Monthly</button>
+            <button class="btn btn-primary"  data-bind="click: getMonthGraphy">Monthly</button>
                 </div>
         </div>
-        </div>
-<div class="row">
+        <div class="col-sm-3">
+            <div class="row">
+                <h4>Companies</h4>
+            </div>
+            <div class="row">
+                <select data-bind="options: years,
+                       value : selectedYear,
+                       optionsCaption: 'Choose...'"></select>
+                <button class="btn btn-primary" data-bind="click: getCompanyYearGraphy">Yearly</button>
+            </div>
+            <div class="row">
+                <select data-bind="options: months,
+                       value : selectedMonth,
+                       optionsCaption: 'Choose...'"></select>
 
-    <div style="padding: 15px" id="graphContent">
-            <div style="width: 750px; height: 300px" id="chart-container"></div>
+                <button class="btn btn-primary" data-bind="click: getCompanyMonthGraphy">Monthly</button>
+            </div>
+        </div>
+        <div class="col-sm-3">
+            <div class="row">
+                <h4>Employees</h4>
+            </div>
+            <div class="row">
+                <select data-bind="options: years,
+                       value : selectedYear,
+                       optionsCaption: 'Choose...'"></select>
+                <button class="btn btn-primary" data-bind="click: getEmployeeYearGraphy">Yearly</button>
+            </div>
+            <div class="row">
+                <select data-bind="options: months,
+                       value : selectedMonth,
+                       optionsCaption: 'Choose...'"></select>
+
+                <button class="btn btn-primary" data-bind="click: getEmployeeMonthGraphy">Monthly</button>
+            </div>
+        </div>
+        </div>
+<div class="row" style="margin-bottom:20px;">
+
+    <div style="padding: 25px" id="graphContent">
+            <div style="width: 800px; height: 350px" id="chart-container"></div>
     </div>
     
 </div>

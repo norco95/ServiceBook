@@ -183,64 +183,7 @@ namespace ServiceBook.Controllers
 
         }
 
-        [HttpPost]
-
-        public ActionResult GetYearly(int id,int year)
-        {
-
-            string[] months = {"Jan","Feb","Mar","Apr","May","June","July","Aug","Sept","Oct","Nov","Dec" };
-            bool success = true;
-            string message = "";
-            WorkingPoint workingPoint= WorkingPointRepository.GetWorkingPoint(id);
-            List<StatisticModel> Statistic = new List<StatisticModel>();
-            for (int i = 0; i < 12; i++)
-            {
-                StatisticModel statisticModel = new StatisticModel();
-                statisticModel.Name = months[i];
-                statisticModel.Value = 0;
-                foreach(var s in workingPoint.Services)
-                {
-                    if(s.ServiceDate.Year==year && s.ServiceDate.Month==i+1)
-                    {
-                        statisticModel.Value += s.Price;
-                    }
-                }
-              
-                Statistic.Add(statisticModel);
-            }
-            return Json(new { success = success, messages = message,Statistic = Statistic }, JsonRequestBehavior.DenyGet);
-
-        }
-
-        [HttpPost]
-
-        public ActionResult GetMonthly(int id, int year,int month)
-        {
-            bool success = true;
-            string message = "";
-            WorkingPoint workingPoint = WorkingPointRepository.GetWorkingPoint(id);
-            List<StatisticModel> Statistic = new List<StatisticModel>();
-            int days = DateTime.DaysInMonth(year, month);
-            for (int i = 0; i <= days; i++)
-            {
-                StatisticModel statisticModel = new StatisticModel();
-                statisticModel.Name = i.ToString();
-                statisticModel.Value = 0;
-                foreach (var s in workingPoint.Services)
-                {
-                    if (s.ServiceDate.Year == year && s.ServiceDate.Month == month && s.ServiceDate.Day==i)
-                    {
-                       
-                        statisticModel.Value += s.Price;
-                    }
-                }
-
-                Statistic.Add(statisticModel);
-            }
-            return Json(new { success = success, messages = message, Statistic = Statistic }, JsonRequestBehavior.DenyGet);
-
-        }
-
+       
 
         //COMPANY
         [HttpPost]
@@ -946,6 +889,222 @@ namespace ServiceBook.Controllers
 
                 return sw.GetStringBuilder().ToString();
             }
+        }
+
+        //Graphy
+        [HttpPost]
+        public ActionResult GetCompanyYearly(int id, int year)
+        {
+
+            string[] months = { "Jan", "Feb", "Mar", "Apr", "May", "June", "July", "Aug", "Sept", "Oct", "Nov", "Dec" };
+            bool success = true;
+            string message = "";
+            VehicleServiceCompany company = VehicleServiceCompanyOwnerRepository.GetCompany(id);
+            List<StatisticModel> Statistic = new List<StatisticModel>();
+            for (int i = 0; i < 12; i++)
+            {
+                StatisticModel statisticModel = new StatisticModel();
+                statisticModel.Name = months[i];
+                statisticModel.Value = 0;
+                foreach (var workingPoint in company.WorkingPoints)
+                {
+                    foreach (var service in workingPoint.Services)
+                    {
+                        if (service.ServiceDate.Year == year && service.ServiceDate.Month == i + 1)
+                        {
+                            if(service.Flag==1)
+                            {
+                                statisticModel.Value += service.Price;
+                            }
+                            
+                        }
+                    }
+
+                }
+
+                Statistic.Add(statisticModel);
+            }
+            return Json(new { success = success, messages = message, Statistic = Statistic }, JsonRequestBehavior.DenyGet);
+
+        }
+
+        [HttpPost]
+        public ActionResult GetYearly(int id, int year)
+        {
+
+            string[] months = { "Jan", "Feb", "Mar", "Apr", "May", "June", "July", "Aug", "Sept", "Oct", "Nov", "Dec" };
+            bool success = true;
+            string message = "";
+            WorkingPoint workingPoint = WorkingPointRepository.GetWorkingPoint(id);
+            List<StatisticModel> Statistic = new List<StatisticModel>();
+            for (int i = 0; i < 12; i++)
+            {
+                StatisticModel statisticModel = new StatisticModel();
+                statisticModel.Name = months[i];
+                statisticModel.Value = 0;
+                foreach (var service in workingPoint.Services)
+                {
+                    if (service.ServiceDate.Year == year && service.ServiceDate.Month == i + 1)
+                    {
+                        if (service.Flag == 1)
+                        {
+                            statisticModel.Value += service.Price;
+                        }
+                    }
+                }
+
+                Statistic.Add(statisticModel);
+            }
+            return Json(new { success = success, messages = message, Statistic = Statistic }, JsonRequestBehavior.DenyGet);
+
+        }
+
+        [HttpPost]
+        public ActionResult GetEmployeeYearly(int id, int year)
+        {
+
+
+            bool success = true;
+            string message = "";
+            WorkingPoint workingPoint = WorkingPointRepository.GetWorkingPoint(id);
+            List<StatisticModel> Statistic = new List<StatisticModel>();
+            var employees = workingPoint.Employees.Where(x => x.Flag == 0).ToList();
+
+            foreach (var employee in employees)
+            {
+                StatisticModel statisticModel = new StatisticModel();
+                statisticModel.Name = employee.FirstName + " " + employee.LastName;
+                int empid = employee.ID;
+                statisticModel.Value = 0;
+                foreach (var service in workingPoint.Services)
+                {
+                    
+                    if (service.ServiceDate.Year == year)
+                    {
+                        if (service.Flag == 1)
+                        {
+                            foreach (var se in service.SE)
+                            {
+                                if (se.Employee.ID == empid)
+                                {
+                                    statisticModel.Value += service.Price;
+                                }
+                            }
+                        }
+
+                    }
+                }
+
+                Statistic.Add(statisticModel);
+            }
+            return Json(new { success = success, messages = message, Statistic = Statistic }, JsonRequestBehavior.DenyGet);
+
+        }
+
+        [HttpPost]
+        public ActionResult GetCompanyMonthly(int id, int year, int month)
+        {
+            bool success = true;
+            string message = "";
+            VehicleServiceCompany company = VehicleServiceCompanyOwnerRepository.GetCompany(id);
+            List<StatisticModel> Statistic = new List<StatisticModel>();
+            int days = DateTime.DaysInMonth(year, month);
+            for (int i = 0; i <= days; i++)
+            {
+                StatisticModel statisticModel = new StatisticModel();
+                statisticModel.Name = i.ToString();
+                statisticModel.Value = 0;
+                foreach (var workingPoint in company.WorkingPoints)
+                {
+                    foreach (var service in workingPoint.Services)
+                    {
+                        if (service.ServiceDate.Year == year && service.ServiceDate.Month == month && service.ServiceDate.Day == i)
+                        {
+                            if (service.Flag == 1)
+                            {
+                                statisticModel.Value += service.Price;
+                            }
+                        }
+                    }
+                }
+
+                Statistic.Add(statisticModel);
+            }
+            return Json(new { success = success, messages = message, Statistic = Statistic }, JsonRequestBehavior.DenyGet);
+
+        }
+
+        [HttpPost]
+        public ActionResult GetMonthly(int id, int year, int month)
+        {
+            bool success = true;
+            string message = "";
+            WorkingPoint workingPoint = WorkingPointRepository.GetWorkingPoint(id);
+            List<StatisticModel> Statistic = new List<StatisticModel>();
+            int days = DateTime.DaysInMonth(year, month);
+            for (int i = 0; i <= days; i++)
+            {
+                StatisticModel statisticModel = new StatisticModel();
+                statisticModel.Name = i.ToString();
+                statisticModel.Value = 0;
+                foreach (var service in workingPoint.Services)
+                {
+                    if (service.ServiceDate.Year == year && service.ServiceDate.Month == month && service.ServiceDate.Day == i)
+                    {
+
+                        if(service.Flag==1)
+
+                        {
+                            statisticModel.Value += service.Price;
+                        }
+                       
+                    }
+                }
+
+                Statistic.Add(statisticModel);
+            }
+            return Json(new { success = success, messages = message, Statistic = Statistic }, JsonRequestBehavior.DenyGet);
+
+        }
+
+
+        [HttpPost]
+        public ActionResult GetEmployeeMonthly(int id, int year, int month)
+        {
+            bool success = true;
+            string message = "";
+            WorkingPoint workingPoint = WorkingPointRepository.GetWorkingPoint(id);
+            List<StatisticModel> Statistic = new List<StatisticModel>();
+            var employees = workingPoint.Employees.Where(x => x.Flag == 0).ToList();
+
+            foreach (var emp in employees)
+            {
+                StatisticModel statisticModel = new StatisticModel();
+                statisticModel.Name = emp.FirstName + " " + emp.LastName;
+                int empid = emp.ID;
+                statisticModel.Value = 0;
+                foreach (var service in workingPoint.Services)
+                {
+                    if (service.ServiceDate.Year == year && service.ServiceDate.Month == month )
+                    {
+                        if (service.Flag == 1)
+                        {
+                            foreach (var se in service.SE)
+                            {
+                                if (se.Employee.ID == empid)
+                                {
+                                    statisticModel.Value += service.Price;
+                                }
+                            }
+                        }
+
+                    }
+                }
+
+                Statistic.Add(statisticModel);
+            }
+            return Json(new { success = success, messages = message, Statistic = Statistic }, JsonRequestBehavior.DenyGet);
+
         }
     }
 }

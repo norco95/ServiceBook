@@ -25,5 +25,6 @@ namespace ServiceBook.DAL.Models
         
         public virtual ICollection<WorkingPoint> WorkingPoints { get; set; }
 
+       
     }
 }

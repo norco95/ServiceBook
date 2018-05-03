@@ -41,5 +41,10 @@ namespace ServiceBook.DAL
             ServiceBookContext.CCO.Remove(deletVehicleServiceCompany);
             ServiceBookContext.SaveChanges();
         }
+
+        public VehicleServiceCompany GetCompany(int id)
+        {
+            return ServiceBookContext.VehicleServiceCompany.FirstOrDefault(x => x.ID == id);
+        }
     }
 }
